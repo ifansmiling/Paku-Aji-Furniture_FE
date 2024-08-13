@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaMapMarkerAlt, FaPhoneVolume } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import Carousel from "../components/web/carousel"; // Sesuaikan path dengan struktur project Anda
+import { MdEmail, MdOutlineCategory } from "react-icons/md";
+import { TbPackageExport } from "react-icons/tb";
+import { GrCircleInformation } from "react-icons/gr";
+import { LuHome } from "react-icons/lu";
+import Carousel from "../components/web/carousel"; // Adjust path as per your project structure
 
 const Weblayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +18,7 @@ const Weblayout = ({ children }) => {
   const handleLinkClick = (path) => {
     setActiveLink(path);
     if (isOpen) {
-      toggleMenu(); // Menutup menu mobile saat link diklik
+      toggleMenu(); // Close the mobile menu when a link is clicked
     }
   };
 
@@ -26,10 +29,10 @@ const Weblayout = ({ children }) => {
         <div className="container mx-auto py-3 flex items-center justify-between">
           {/* Logo Container */}
           <div className="flex items-center space-x-1">
-            <a href="/beranda">
+            <a href="/">
               <img src="/logo1.png" alt="Logo 1" className="h-12 w-auto" />
             </a>
-            <a href="/beranda">
+            <a href="/">
               <img src="/logo2.png" alt="Logo 2" className="h-12 w-auto" />
             </a>
           </div>
@@ -58,48 +61,50 @@ const Weblayout = ({ children }) => {
           {/* Navigation Links */}
           <div className="hidden md:flex md:space-x-6">
             <Link
-              to="/beranda"
-              className={`text-xl ${
-                activeLink === "/beranda"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+              to="/"
+              className={`flex items-center text-xl font-serif ${
+                activeLink === "/" ? "text-[#916131]" : "hover:text-[#916131]"
               }`}
-              onClick={() => handleLinkClick("/beranda")}
+              onClick={() => handleLinkClick("/")}
             >
-              Beranda
+              <LuHome className="mr-2" />
+              <div>Beranda</div>
             </Link>
             <Link
               to="/katalog"
-              className={`text-xl ${
+              className={`flex items-center text-xl font-serif ${
                 activeLink === "/katalog"
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
               }`}
               onClick={() => handleLinkClick("/katalog")}
             >
-              Katalog
+              <MdOutlineCategory className="mr-2" />
+              <div>Katalog</div>
             </Link>
             <Link
               to="/journey"
-              className={`text-xl ${
+              className={`flex items-center text-xl font-serif ${
                 activeLink === "/journey"
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
               }`}
               onClick={() => handleLinkClick("/journey")}
             >
+              <TbPackageExport className="mr-2" />
               Export Journey
             </Link>
             <Link
               to="/about"
-              className={`text-xl ${
+              className={`flex items-center text-xl font-serif ${
                 activeLink === "/about"
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
               }`}
               onClick={() => handleLinkClick("/about")}
             >
-              About Us
+              <GrCircleInformation className="mr-2" />
+              <div>About Us</div>
             </Link>
           </div>
         </div>
@@ -132,7 +137,7 @@ const Weblayout = ({ children }) => {
           <div className="flex flex-col space-y-4 mt-12">
             <Link
               to="/beranda"
-              className={`text-xl ${
+              className={`flex items-center text-xl ${
                 activeLink === "/beranda"
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
@@ -143,7 +148,7 @@ const Weblayout = ({ children }) => {
             </Link>
             <Link
               to="/katalog"
-              className={`text-xl ${
+              className={`flex items-center text-xl ${
                 activeLink === "/katalog"
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
@@ -154,7 +159,7 @@ const Weblayout = ({ children }) => {
             </Link>
             <Link
               to="/journey"
-              className={`text-xl ${
+              className={`flex items-center text-xl ${
                 activeLink === "/journey"
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
@@ -165,7 +170,7 @@ const Weblayout = ({ children }) => {
             </Link>
             <Link
               to="/about"
-              className={`text-xl ${
+              className={`flex items-center text-xl ${
                 activeLink === "/about"
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
@@ -178,18 +183,23 @@ const Weblayout = ({ children }) => {
         </div>
       </nav>
       {/* Carousel */}
-      <Carousel /> {/* Tambahkan komponen Carousel di sini */}
+      <Carousel /> {/* Add Carousel component here */}
       {/* Main Content */}
-      <main className="flex-grow pt-16">{children}</main>
+      <main className="flex-grow">{children}</main>
       {/* Footer */}
       <footer className="bg-gray-300 text-black py-6">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start">
           {/* Logo di Kiri Atas */}
           <div className="flex flex-col items-start mb-4 md:mb-0 w-full md:w-1/4">
-            <img src="/Logo.png" alt="Logo" className="h-20 w-auto mb-4 ml-9" />
+            <div className="items-center">
+              <img
+                src="/Logo.png"
+                alt="Logo"
+                className="h-20 w-auto mb-4 ml-20 items-center"
+              />
+            </div>
             <div className="flex items-center mb-2">
               <FaMapMarkerAlt className="text-4xl mr-5" />
-              {/* Ukuran ikon diperbesar */}
               <p className="text-base lg:text-l mr-6">
                 Lik Takaru, Kec. Kramat, Kabupaten Tegal, Jawa Tengah. Paku Aji
                 Furniture by CV Paku Aji Indonesia.
@@ -197,12 +207,10 @@ const Weblayout = ({ children }) => {
             </div>
             <div className="flex items-center mb-2">
               <FaPhoneVolume className="text-2xl mr-3" />
-              {/* Ukuran ikon disesuaikan */}
               <p className="text-base lg:text-l">085726061650</p>
             </div>
             <div className="flex items-center">
               <MdEmail className="text-2xl mr-3" />
-              {/* Ukuran ikon disesuaikan */}
               <p className="text-base lg:text-l">Admin@Pakuajifurniture.id</p>
             </div>
           </div>

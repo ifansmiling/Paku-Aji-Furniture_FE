@@ -17,6 +17,7 @@ import ProdukIndex from "./pages/admin/produks/index";
 import AboutUs from "./pages/web/about/index"
 import ExJourney from "./pages/web/exjourney/index"
 import OrderUser from "./pages/web/order/index"
+import Katalog from "./pages/web/katalog/index"
 
 function App() {
   return (
@@ -40,12 +41,13 @@ function App() {
         <Route path="/admin/users/edit/:id" element={<UsersEdit />} />
 
         {/* Rute halaman beranda */}
-        <Route path="/beranda" element={<Home />} />
+        <Route path="/" element={<Home />} />
 
         {/* Rute halaman user */}
         <Route path="/about" element={<AboutUs />} />
         <Route path="/journey" element={<ExJourney />} />
         <Route path="/order" element={<OrderUser />} />
+        <Route path="/katalog" element={<Katalog />} />
 
         {/* Rute fallback untuk halaman 404 */}
         <Route
