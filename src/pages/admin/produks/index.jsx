@@ -1,8 +1,12 @@
-import AdminLayout from "../../../layouts/Adminlayout";
 import React, { useState, useEffect } from "react";
 import Api from "../../../services/api";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import AdminLayout from "../../../layouts/Adminlayout";
+import { FaTrash, FaEdit, FaPlus } from "react-icons/fa";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const baseURL = "http://localhost:5000"; // Base URL untuk gambar (jika ada gambar produk)
 
 const ProdukIndex = () => {
   const [products, setProducts] = useState([]);
@@ -14,8 +18,7 @@ const ProdukIndex = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Kategori ID:", kategoriId);
-    fetchProducts(); // Panggil fetchProducts tanpa parameter untuk mengambil semua produk
+    fetchProducts();
   }, [kategoriId]);
 
   useEffect(() => {
@@ -29,12 +32,15 @@ const ProdukIndex = () => {
   const fetchProducts = async () => {
     try {
       const response = await Api.get(`/produk/allproduk/kategori`);
-      console.log("Response from API:", response.data);
       setProducts(response.data);
       setFilteredProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
+  };
+
+  const handleEditClick = (productId) => {
+    navigate(`/admin/produks/edit/${productId}`);
   };
 
   const handleDeleteClick = (product) => {
@@ -45,87 +51,94 @@ const ProdukIndex = () => {
   const handleDeleteConfirm = async () => {
     try {
       await Api.delete(`/produk/${selectedProduct.id}`);
+      toast.success("Product deleted successfully!");
       setProducts(
         products.filter((product) => product.id !== selectedProduct.id)
       );
       setFilteredProducts(
         filteredProducts.filter((product) => product.id !== selectedProduct.id)
       );
-      setShowModal(false);
     } catch (error) {
       console.error("Error deleting product:", error);
+      toast.error("Error deleting product: " + error.message);
     }
+    setShowModal(false);
+    setSelectedProduct(null);
   };
 
   const handleModalClose = () => {
     setShowModal(false);
   };
 
-  const handleEditClick = (productId) => {
-    navigate(`/admin/produks/edit/${productId}`);
+  const handleAddClick = () => {
+    navigate("/admin/produks/create");
   };
 
   return (
     <AdminLayout>
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Produk</h1>
-        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+      <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-800">Produk List</h2>
+          <button
+            onClick={handleAddClick}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center space-x-2"
+          >
+            <span>Tambah Produk</span>
+          </button>
+        </div>
+        <div className="flex mb-4">
           <input
             type="text"
             placeholder="Cari produk..."
-            className="p-2 border border-gray-300 rounded mb-4 md:mb-0 md:mr-4 w-full md:w-auto"
+            className="p-3 border border-gray-300 rounded-lg w-full md:w-1/3 mr-4"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-            onClick={() => navigate("/admin/produks/create")}
-          >
-            Tambah Baru
-          </button>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 border-b text-center">No.</th>
-                <th className="px-4 py-2 border-b text-center">Nama Produk</th>
-                <th className="px-4 py-2 border-b text-center">Kategori</th>
-                <th className="px-4 py-2 border-b text-center">Aksi</th>
+          <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead className="bg-gray-200">
+              <tr className="border-b border-gray-300 text-center">
+                <th className="py-3 px-4 text-gray-600">No</th>
+                <th className="py-3 px-4 text-gray-600">Nama Produk</th>
+                <th className="py-3 px-4 text-gray-600">Kategori</th>
+                <th className="py-3 px-4 text-gray-600">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product, index) => (
-                  <tr key={product.id} className="hover:bg-gray-100 transition">
-                    <td className="px-4 py-2 border-b text-center">
-                      {index + 1}
-                    </td>
-                    <td className="px-4 py-2 border-b text-center">
-                      {product.nama}
-                    </td>
-                    <td className="px-4 py-2 border-b text-center">
+                  <tr
+                    key={product.id}
+                    className="border-b border-gray-200 text-center"
+                  >
+                    <td className="py-3 px-4 text-gray-700">{index + 1}</td>
+                    <td className="py-3 px-4 text-gray-700">{product.nama}</td>
+                    <td className="py-3 px-4 text-gray-700">
                       {product.kategori?.nama || "Tidak ada kategori"}
                     </td>
-                    <td className="px-4 py-2 border-b text-center">
+                    <td className="py-3 px-4 flex justify-center space-x-2">
                       <button
                         onClick={() => handleEditClick(product.id)}
-                        className="text-blue-500 hover:text-blue-700 mr-2"
+                        className="text-blue-500 hover:text-blue-700"
                       >
-                        <FaEdit />
+                        <FaEdit className="h-5 w-5" />
                       </button>
                       <button
                         onClick={() => handleDeleteClick(product)}
                         className="text-red-500 hover:text-red-700"
                       >
-                        <FaTrash />
+                        <FaTrash className="h-5 w-5" />
                       </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="px-4 py-2 border-b text-center">
+                  <td
+                    colSpan="4"
+                    className="py-3 px-4 text-center text-gray-500"
+                  >
                     Tidak ada produk yang ditemukan
                   </td>
                 </tr>
@@ -135,25 +148,25 @@ const ProdukIndex = () => {
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-4 rounded-lg max-w-sm w-full text-center">
-              <h2 className="text-xl font-bold mb-4">Konfirmasi Penghapusan</h2>
-              <p>
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+            <div className="bg-white p-6 rounded-lg shadow-md w-96">
+              <h3 className="text-lg font-bold">Konfirmasi Penghapusan</h3>
+              <p className="mt-2">
                 Apakah Anda yakin ingin menghapus produk{" "}
                 <strong>{selectedProduct?.nama}</strong>?
               </p>
-              <div className="mt-4 flex justify-around">
+              <div className="mt-4 flex justify-end space-x-4">
                 <button
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition"
                   onClick={handleModalClose}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
                 >
-                  Batal
+                  Cancel
                 </button>
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                   onClick={handleDeleteConfirm}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
                 >
-                  Hapus
+                  Delete
                 </button>
               </div>
             </div>

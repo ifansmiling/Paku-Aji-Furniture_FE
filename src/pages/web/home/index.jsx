@@ -9,7 +9,7 @@ const baseURL = "http://localhost:5000";
 const HomeCards = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [latestProducts, setLatestProducts] = useState([]); // State for latest products
+  const [latestProducts, setLatestProducts] = useState([]);
   const [error, setError] = useState(null);
   const [loadingLatestProducts, setLoadingLatestProducts] = useState(true);
 
@@ -26,12 +26,10 @@ const HomeCards = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await Api.get("/produk"); // Ensure this endpoint is correct
+        const response = await Api.get("/produk");
         let products = response.data;
 
-        // Shuffle the products array to randomize the order
         products = products.sort(() => Math.random() - 0.5);
-
         setProducts(products);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -45,7 +43,7 @@ const HomeCards = () => {
         const sortedProducts = response.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        setLatestProducts(sortedProducts.slice(0, 5)); // Get the 5 most recent products
+        setLatestProducts(sortedProducts.slice(0, 4));
       } catch (error) {
         console.error("Error fetching latest products:", error);
         setError("Gagal mengambil produk terbaru. Silakan coba lagi nanti.");
@@ -56,14 +54,13 @@ const HomeCards = () => {
 
     fetchCategories();
     fetchProducts();
-    fetchLatestProducts(); // Fetch latest products
+    fetchLatestProducts();
   }, []);
 
   const getFullImagePath = (path) => {
     return `${baseURL}${path}`;
   };
 
-  // Function to format price as currency
   const formatPrice = (price) => {
     let formattedPrice = new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -93,38 +90,38 @@ const HomeCards = () => {
               {latestProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-52 p-0" // Make card width smaller
+                  className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-52 p-0"
                 >
                   <div
                     className="w-full"
                     style={{
                       position: "relative",
-                      paddingTop: "100%", // 1:1 Aspect Ratio
+                      paddingTop: "100%",
                       overflow: "hidden",
-                      borderRadius: "12px 12px 0 0", // Rounded corners only at the top
+                      borderRadius: "12px 12px 0 0",
                     }}
                   >
                     <img
                       src={getFullImagePath(product.gambar)}
                       alt={product.nama}
-                      className="absolute top-0 left-0 w-full h-full object-cover" // Ensure full coverage of the container
+                      className="absolute top-0 left-0 w-full h-full object-cover"
                     />
                   </div>
                   <div className="flex flex-col items-center p-2">
-                    <h3 className="text-sm font-normal mb-1 text-center">
+                    <h3 className="text-l font-sans mb-2 text-center">
                       {product.nama}
                     </h3>
-                    <p className="text-xs text-black mb-2 text-center font-medium">
-                      Harga: {formatPrice(product.harga)}
+                    <p className="text-sm text-black mb-2 text-center font-sans font-semibold">
+                      {formatPrice(product.harga)}
                     </p>
-                    <div className="flex flex-col items-center space-y-2 w-full">
+                    <div className="flex flex-wrap items-center space-y-1 w-full">
                       {product.linkTokopedia && (
                         <a
                           href={product.linkTokopedia}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                          style={{ backgroundColor: "#916131" }} // Background color for Tokopedia
+                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm"
+                          style={{ backgroundColor: "#916131" }}
                         >
                           Tokopedia
                         </a>
@@ -134,8 +131,8 @@ const HomeCards = () => {
                           href={product.linkShopee}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                          style={{ backgroundColor: "#916131" }} // Background color for Shopee
+                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm"
+                          style={{ backgroundColor: "#916131" }}
                         >
                           Shopee
                         </a>
@@ -145,8 +142,8 @@ const HomeCards = () => {
                           href={`https://wa.me/${product.linkWhatsApp}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                          style={{ backgroundColor: "#916131" }} // Background color for WhatsApp
+                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm"
+                          style={{ backgroundColor: "#916131" }}
                         >
                           WhatsApp
                         </a>
@@ -176,7 +173,7 @@ const HomeCards = () => {
               <div
                 className="card"
                 style={{
-                  width: "3.5rem", // Smaller size for category images
+                  width: "3.5rem",
                   height: "3.5rem",
                   borderRadius: "50%",
                   overflow: "hidden",
@@ -206,41 +203,41 @@ const HomeCards = () => {
           Produk Kami
         </h2>
         <div className="flex flex-wrap justify-center gap-3">
-          {products.map((product) => (
+          {products.slice(0, 12).map((product, index) => (
             <div
               key={product.id}
-              className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-44 p-0" // Make card width smaller
+              className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-44 p-0"
             >
               <div
                 className="w-full"
                 style={{
                   position: "relative",
-                  paddingTop: "100%", // 1:1 Aspect Ratio
+                  paddingTop: "100%",
                   overflow: "hidden",
-                  borderRadius: "12px 12px 0 0", // Rounded corners only at the top
+                  borderRadius: "12px 12px 0 0",
                 }}
               >
                 <img
                   src={getFullImagePath(product.gambar)}
                   alt={product.nama}
-                  className="absolute top-0 left-0 w-full h-full object-cover" // Ensure full coverage of the container
+                  className="absolute top-0 left-0 w-full h-full object-cover"
                 />
               </div>
               <div className="flex flex-col items-center p-2">
-                <h3 className="text-sm font-normal mb-1 text-center">
+                <h3 className="text-sm font-sans mb-2 text-center">
                   {product.nama}
                 </h3>
-                <p className="text-xs text-black mb-2 text-center font-medium">
-                  Harga: {formatPrice(product.harga)}
+                <p className="text-xs text-black mb-2 text-center font-sans font-semibold">
+                  {formatPrice(product.harga)}
                 </p>
-                <div className="flex flex-col items-center space-y-2 w-full">
+                <div className="flex flex-wrap items-center space-y-2 w-full">
                   {product.linkTokopedia && (
                     <a
                       href={product.linkTokopedia}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                      style={{ backgroundColor: "#916131" }} // Background color for Tokopedia
+                      className="w-full text-center py-1 px-5 rounded-md text-white text-xs"
+                      style={{ backgroundColor: "#916131" }}
                     >
                       Tokopedia
                     </a>
@@ -251,7 +248,7 @@ const HomeCards = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                      style={{ backgroundColor: "#916131" }} // Background color for Shopee
+                      style={{ backgroundColor: "#916131" }}
                     >
                       Shopee
                     </a>
@@ -262,7 +259,7 @@ const HomeCards = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                      style={{ backgroundColor: "#916131" }} // Background color for WhatsApp
+                      style={{ backgroundColor: "#916131" }}
                     >
                       WhatsApp
                     </a>

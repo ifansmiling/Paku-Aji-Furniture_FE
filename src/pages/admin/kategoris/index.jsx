@@ -1,5 +1,5 @@
-import AdminLayout from "../../../layouts/Adminlayout";
 import React, { useState, useEffect } from "react";
+import AdminLayout from "../../../layouts/Adminlayout";
 import Api from "../../../services/api";
 import { FaTrash } from "react-icons/fa";
 
@@ -25,7 +25,6 @@ const KategoriIndex = () => {
   const fetchCategories = async () => {
     try {
       const response = await Api.get("/kategori");
-      console.log(response.data);
       setCategories(response.data);
       setFilteredCategories(response.data);
     } catch (error) {
@@ -66,83 +65,100 @@ const KategoriIndex = () => {
 
   return (
     <AdminLayout>
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Kategori</h1>
-        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-          <input
-            type="text"
-            placeholder="Cari kategori..."
-            className="p-2 border border-gray-300 rounded mb-4 md:mb-0 md:mr-4 w-full md:w-auto"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-800">Kategori List</h2>
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center space-x-2"
             onClick={() => (window.location.href = "/admin/kategoris/create")}
           >
             Tambah Baru
           </button>
         </div>
+        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+          <input
+            type="text"
+            placeholder="Cari kategori..."
+            className="p-2 border border-gray-300 rounded-md mb-4 md:mb-0 md:mr-4 w-full md:w-1/3"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 border-b text-center">No.</th>
-                <th className="px-4 py-2 border-b text-center">Gambar</th>
-                <th className="px-4 py-2 border-b text-center">
-                  Nama Kategori
-                </th>
-                <th className="px-4 py-2 border-b text-center">Aksi</th>
+          <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead className="bg-gray-200">
+              <tr className="border-b border-gray-300 text-center">
+                <th className="py-3 px-4 text-gray-600">No.</th>
+                <th className="py-3 px-4 text-gray-600">Gambar</th>
+                <th className="py-3 px-4 text-gray-600">Nama Kategori</th>
+                <th className="py-3 px-4 text-gray-600">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              {filteredCategories.map((category, index) => (
-                <tr key={category.id} className="hover:bg-gray-100 transition">
-                  <td className="px-4 py-2 border-b text-center">
-                    {index + 1}
-                  </td>
-                  <td className="px-4 py-2 border-b text-center">
-                    <img
-                      src={getFullImagePath(category.gambar)}
-                      alt={category.namaKategori}
-                      className="w-12 h-12 object-cover mx-auto"
-                    />
-                  </td>
-                  <td className="px-4 py-2 border-b text-center">
-                    {category.namaKategori}
-                  </td>
-                  <td className="px-4 py-2 border-b text-center">
-                    <button
-                      onClick={() => handleDeleteClick(category)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <FaTrash />
-                    </button>
+              {filteredCategories.length > 0 ? (
+                filteredCategories.map((category, index) => (
+                  <tr
+                    key={category.id}
+                    className="border-b border-gray-200 text-center hover:bg-gray-100"
+                  >
+                    <td className="py-3 px-4 text-gray-700">{index + 1}</td>
+                    <td className="py-3 px-4 text-center">
+                      <img
+                        src={getFullImagePath(category.gambar)}
+                        alt={category.namaKategori}
+                        className="w-24 h-16 object-cover rounded-md shadow-sm mx-auto"
+                        onError={(e) =>
+                          (e.target.src = "/path/to/default-image.jpg")
+                        }
+                      />
+                    </td>
+                    <td className="py-3 px-4 text-gray-700">
+                      {category.namaKategori}
+                    </td>
+                    <td className="py-3 px-4 flex justify-center space-x-2">
+                      <button
+                        onClick={() => handleDeleteClick(category)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <FaTrash className="h-5 w-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="4"
+                    className="py-3 px-4 text-center text-gray-500"
+                  >
+                    Tidak ada kategori yang ditemukan
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
 
         {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-4 rounded-lg max-w-sm w-full text-center">
-              <h2 className="text-xl font-bold mb-4">Konfirmasi Penghapusan</h2>
-              <p>
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+            <div className="bg-white p-6 rounded-lg shadow-md w-96">
+              <h3 className="text-lg font-bold text-gray-800">
+                Konfirmasi Penghapusan
+              </h3>
+              <p className="mt-2">
                 Apakah Anda yakin ingin menghapus kategori{" "}
                 <strong>{selectedCategory?.namaKategori}</strong>?
               </p>
-              <div className="mt-4 flex justify-around">
+              <div className="mt-4 flex justify-end space-x-4">
                 <button
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition"
                   onClick={handleModalClose}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
                 >
                   Batal
                 </button>
                 <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                   onClick={handleDeleteConfirm}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
                 >
                   Hapus
                 </button>

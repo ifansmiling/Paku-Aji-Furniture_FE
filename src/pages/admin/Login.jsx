@@ -46,16 +46,20 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <div className="flex justify-center items-center w-full h-screen bg-[#F7F3F0]">
+      {" "}
+      {/* Latar belakang halaman */}
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
-        <h2 className="mb-6 text-2xl font-semibold text-gray-800">
+        <h2 className="mb-6 text-2xl font-semibold text-[#CD9D6D]">
+          {" "}
+          {/* Warna judul */}
           Admin Login
         </h2>
         {message && (
           <div
             className={`${
               message === "Login berhasil"
-                ? "bg-blue-600/70"
+                ? "bg-[#a76b4d]/70"
                 : "bg-red-600/70 text-sm"
             } mb-4 w-full text-white py-3`}
           >
@@ -64,37 +68,49 @@ const AdminLogin = () => {
         )}
         <form onSubmit={handleLogin} className="admin-login-form">
           <div className="mb-4 text-left">
-            <label className="block mb-2 text-gray-600">Email</label>
+            <label className="block mb-2 text-[#0d0d0d]">
+              {" "}
+              {/* Warna label */}
+              Email
+            </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="Email"
-              className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"
+              className="w-full p-2 border border-[#CD9D6D] rounded focus:border-[#CD9D6D] outline-none"
             />
           </div>
           <div className="mb-4 text-left relative">
-            <label className="block mb-2 text-gray-600">Kata Sandi</label>
+            <label className="block mb-2 text-[#131312]">
+              {" "}
+              {/* Warna label */}
+              Kata Sandi
+            </label>
             <input
               type={showPassword ? "text" : "password"}
               value={kataSandi}
               onChange={(e) => setKataSandi(e.target.value)}
               required
               placeholder="Kata Sandi"
-              className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 outline-none"
+              className="w-full p-2 border border-[#CD9D6D] rounded focus:border-[#CD9D6D] outline-none"
             />
             <span
               onClick={togglePasswordVisibility}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer mt-4"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer mt-3"
               style={{ display: "flex", alignItems: "center", height: "100%" }}
             >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
+              {showPassword ? (
+                <FaEyeSlash color="#CD9D6D" />
+              ) : (
+                <FaEye color="#CD9D6D" />
+              )}
             </span>
           </div>
           <button
             type="submit"
-            className="w-full py-3 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none grid place-items-center"
+            className="w-full py-2 bg-[#CD9D6D] text-white rounded hover:bg-[#b87a5a]/80 focus:outline-none grid place-items-center"
           >
             {loading ? (
               <AiOutlineLoading3Quarters className="animate-spin" />

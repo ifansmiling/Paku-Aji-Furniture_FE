@@ -23,6 +23,7 @@ const CreateProduct = () => {
   const [gambar, setGambar] = useState(null);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
+  const [fileError, setFileError] = useState(""); // Error file
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,11 +72,24 @@ const CreateProduct = () => {
   };
 
   const handleFileChange = (e) => {
-    setGambar(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file && file.size > 500 * 1024) {
+      // 500KB in bytes
+      setFileError("Ukuran file tidak boleh melebihi 500KB.");
+      setGambar(null);
+    } else {
+      setFileError("");
+      setGambar(file);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (fileError) {
+      toast.error(fileError); // Show file error
+      return;
+    }
 
     const formData = new FormData();
     Object.keys(productData).forEach((key) => {
@@ -90,65 +104,71 @@ const CreateProduct = () => {
       formData.append("gambar", gambar);
     }
 
-    console.log("Data Produk:", productData);
-    console.log("File Gambar:", gambar);
-
     try {
       await Api.post("/produk", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      // Menampilkan toast notifikasi keberhasilan
       toast.success("Produk berhasil ditambahkan");
       setTimeout(() => {
-        window.location.href = "/admin/produks/index";
-      }, 2000); 
-       // Mengarahkan pengguna ke halaman produk
+        navigate("/admin/produks/index");
+      }, 2000); // Delay 2 detik sebelum mengarahkan ulang
     } catch (error) {
-      console.error("Error creating product:", error);
       setError("Gagal membuat produk. Silakan periksa input Anda.");
-
-      // Menampilkan toast notifikasi error
-      toast.error("Gagal membuat produk. Silakan periksa input Anda.", {
-        position: "top-right",
-        autoClose: 3000,
-      });
+      toast.error("Gagal membuat produk. Silakan periksa input Anda.");
     }
   };
 
   return (
     <AdminLayout>
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6 text-center">
-          Tambah Produk Baru
-        </h1>
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">
-              Nama Produk
-            </label>
-            <input
-              type="text"
-              name="nama"
-              value={productData.nama}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <div className="input-group">
-              <label className="block text-gray-700 font-bold mb-2">
+      <div className="flex justify-center items-center min-h-screen bg-gray-100 p-6">
+        <div className="w-full max-w-4xl bg-white p-12 rounded-2xl shadow-lg border border-gray-200">
+          <h2 className="text-3xl font-semibold mb-8 text-gray-800 text-center">
+            Tambah Produk Baru
+          </h2>
+          {error && (
+            <div className="mb-6 p-4 bg-red-100 text-red-700 border border-red-300 rounded">
+              {error}
+            </div>
+          )}
+          {fileError && (
+            <div className="mb-6 p-4 bg-red-100 text-red-700 border border-red-300 rounded">
+              {fileError}
+            </div>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label
+                htmlFor="nama"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Nama Produk
+              </label>
+              <input
+                type="text"
+                id="nama"
+                name="nama"
+                value={productData.nama}
+                onChange={handleChange}
+                placeholder="Masukkan nama produk"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="kategoriId"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
                 Kategori
               </label>
               <select
+                id="kategoriId"
                 name="kategoriId"
                 value={productData.kategoriId}
                 onChange={handleChange}
-                className="w-full p-3 border border-black-300 rounded"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
                 required
               >
                 <option value="">Pilih Kategori</option>
@@ -159,137 +179,203 @@ const CreateProduct = () => {
                 ))}
               </select>
             </div>
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">Gambar</label>
-            <input
-              type="file"
-              name="gambar"
-              onChange={handleFileChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">Harga</label>
-            <input
-              type="text"
-              name="harga"
-              value={productData.harga}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">
-              Deskripsi
-            </label>
-            <textarea
-              name="deskripsiProduk"
-              value={productData.deskripsiProduk}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            ></textarea>
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">Warna</label>
-            <input
-              type="text"
-              name="warna"
-              value={productData.warna}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">Bahan</label>
-            <input
-              type="text"
-              name="bahan"
-              value={productData.bahan}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">
-              Dimensi
-            </label>
-            <input
-              type="text"
-              name="dimensi"
-              value={productData.dimensi}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">
-              Finishing
-            </label>
-            <input
-              type="text"
-              name="finishing"
-              value={productData.finishing}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">
-              Link Shopee
-            </label>
-            <input
-              type="text"
-              name="linkShopee"
-              value={productData.linkShopee}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">
-              Link WhatsApp
-            </label>
-            <input
-              type="text"
-              name="linkWhatsApp"
-              value={productData.linkWhatsApp}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-            />
-          </div>
-          <div className="input-group">
-            <label className="block text-gray-700 font-bold mb-2">
-              Link Tokopedia
-            </label>
-            <input
-              type="text"
-              name="linkTokopedia"
-              value={productData.linkTokopedia}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded"
-            />
-          </div>
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-            >
-              Tambah Produk
-            </button>
-          </div>
-        </form>
-
-        {/* React Toastify container */}
-        <ToastContainer />
+            <div>
+              <label
+                htmlFor="gambar"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Gambar
+              </label>
+              <input
+                type="file"
+                id="gambar"
+                name="gambar"
+                onChange={handleFileChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-gray-900 file:border-none file:bg-gray-50 file:py-3 file:px-5 file:rounded-md file:text-gray-700 file:cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                required
+              />
+              <small className="block mt-1 text-gray-500 italic">
+                * Maks 500KB
+              </small>
+            </div>
+            <div>
+              <label
+                htmlFor="harga"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Harga
+              </label>
+              <input
+                type="text"
+                id="harga"
+                name="harga"
+                value={productData.harga}
+                onChange={handleChange}
+                placeholder="Masukkan harga produk"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="deskripsiProduk"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Deskripsi
+              </label>
+              <textarea
+                id="deskripsiProduk"
+                name="deskripsiProduk"
+                value={productData.deskripsiProduk}
+                onChange={handleChange}
+                placeholder="Masukkan deskripsi produk"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                rows="4"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="warna"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Warna
+              </label>
+              <input
+                type="text"
+                id="warna"
+                name="warna"
+                value={productData.warna}
+                onChange={handleChange}
+                placeholder="Masukkan warna produk"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="bahan"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Bahan
+              </label>
+              <input
+                type="text"
+                id="bahan"
+                name="bahan"
+                value={productData.bahan}
+                onChange={handleChange}
+                placeholder="Masukkan bahan produk"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="dimensi"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Dimensi
+              </label>
+              <input
+                type="text"
+                id="dimensi"
+                name="dimensi"
+                value={productData.dimensi}
+                onChange={handleChange}
+                placeholder="Masukkan dimensi produk"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="finishing"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Finishing
+              </label>
+              <input
+                type="text"
+                id="finishing"
+                name="finishing"
+                value={productData.finishing}
+                onChange={handleChange}
+                placeholder="Masukkan finishing produk"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="linkShopee"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Link Shopee
+              </label>
+              <input
+                type="text"
+                id="linkShopee"
+                name="linkShopee"
+                value={productData.linkShopee}
+                onChange={handleChange}
+                placeholder="Masukkan link Shopee"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="linkWhatsApp"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Link WhatsApp
+              </label>
+              <input
+                type="text"
+                id="linkWhatsApp"
+                name="linkWhatsApp"
+                value={productData.linkWhatsApp}
+                onChange={handleChange}
+                placeholder="Masukkan link WhatsApp"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="linkTokopedia"
+                className="block text-gray-700 text-lg font-medium mb-2"
+              >
+                Link Tokopedia
+              </label>
+              <input
+                type="text"
+                id="linkTokopedia"
+                name="linkTokopedia"
+                value={productData.linkTokopedia}
+                onChange={handleChange}
+                placeholder="Masukkan link Tokopedia"
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+              />
+            </div>
+            <div className="flex flex-col gap-4">
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+              >
+                Tambah Produk
+              </button>
+              <button
+                type="button"
+                className="bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors duration-300"
+                onClick={() => (window.location.href = "/admin/produks/index")}
+              >
+                Batal
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
+      <ToastContainer />
     </AdminLayout>
   );
 };

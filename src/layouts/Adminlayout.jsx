@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Sidebar from '../components/admin/Sidebar';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaSignOutAlt, FaHome } from "react-icons/fa"; // Import ikon
+import Sidebar from "../components/admin/Sidebar";
 
 const AdminLayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true); // State untuk melacak status sidebar
@@ -12,17 +13,17 @@ const AdminLayout = ({ children }) => {
 
   const handleLogout = () => {
     // Hapus token dari localStorage
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     // Redirect ke halaman login
-    navigate('/admin/login');
+    navigate("/admin/login");
   };
 
   const handleBackToWeb = () => {
-    navigate('/'); // Redirect ke halaman utama web
+    navigate("/"); // Redirect ke halaman utama web
   };
 
   const checkToken = () => {
-    if (localStorage.getItem('token') === null) {
+    if (localStorage.getItem("token") === null) {
       handleBackToWeb();
     }
   };
@@ -32,29 +33,31 @@ const AdminLayout = ({ children }) => {
   }, []);
 
   return (
-    <div className={`${!isOpen ? 'flex' : 'ml-[250px]'}`}>
+    <div className={`${!isOpen ? "flex" : "ml-[250px]"}`}>
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      <section className={`w-full ${!isOpen ? 'pl-[64px]' : ''} `}>
-        <header className="w-full bg-[#916131] flex justify-between items-center">
-          <h1 className="mr-[300px] font-bold text-xl text-white py-3.5 mx-auto">Dashboard Admin Paku Aji Furniture</h1>
+      <section className={`w-full ${!isOpen ? "pl-[64px]" : ""}`}>
+        <header className="w-full bg-[#916131] flex justify-between items-center sticky top-0 z-10">
+          <h1 className="mr-[300px] font-bold text-xl text-white py-3.5 mx-auto">
+            Dashboard Admin Paku Aji Furniture
+          </h1>
           <div className="flex items-center mr-4">
             <button
               onClick={handleBackToWeb}
-              className="text-white bg-blue-600 px-4 px-2 rounded mr-2 hover:bg-blue-800 focus:outline-none"
+              className="text-white bg-blue-600 p-2 rounded mr-2 hover:bg-blue-800 focus:outline-none"
+              aria-label="Kembali ke Web"
             >
-              Kembali ke Web
+              <FaHome className="h-6 w-6" />
             </button>
             <button
               onClick={handleLogout}
-              className="text-white bg-red-600 px-4 py-2 rounded hover:bg-red-800 focus:outline-none"
+              className="text-white bg-black p-2 rounded hover:bg-gray-700 focus:outline-none"
+              aria-label="Logout"
             >
-              Logout
+              <FaSignOutAlt className="h-6 w-6" />
             </button>
           </div>
         </header>
-        <div className="px-10 py-6">
-          {children}
-        </div>
+        <div className="px-10 py-6">{children}</div>
       </section>
     </div>
   );
