@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../../../layouts/Adminlayout";
-import Api from "../../../services/api";
+import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
 import { FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const KategoriIndex = () => {
   const [categories, setCategories] = useState([]);
@@ -9,6 +10,7 @@ const KategoriIndex = () => {
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCategories();
@@ -30,11 +32,6 @@ const KategoriIndex = () => {
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
-  };
-
-  const getFullImagePath = (path) => {
-    const baseURL = "http://localhost:5000";
-    return `${baseURL}${path}`;
   };
 
   const handleDeleteClick = (category) => {
@@ -63,6 +60,10 @@ const KategoriIndex = () => {
     setShowModal(false);
   };
 
+  const handleAddClick = () => {
+    navigate("/admin/kategoris/create");
+  };
+
   return (
     <AdminLayout>
       <div className="p-6 bg-gray-100 min-h-screen">
@@ -70,7 +71,7 @@ const KategoriIndex = () => {
           <h2 className="text-2xl font-bold text-gray-800">Kategori List</h2>
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 flex items-center space-x-2"
-            onClick={() => (window.location.href = "/admin/kategoris/create")}
+            onClick={handleAddClick}
           >
             Tambah Baru
           </button>
@@ -104,7 +105,7 @@ const KategoriIndex = () => {
                     <td className="py-3 px-4 text-gray-700">{index + 1}</td>
                     <td className="py-3 px-4 text-center">
                       <img
-                        src={getFullImagePath(category.gambar)}
+                        src={getImageURL(category.gambar)} // Gunakan getImageURL untuk mendapatkan URL gambar lengkap
                         alt={category.namaKategori}
                         className="w-24 h-16 object-cover rounded-md shadow-sm mx-auto"
                         onError={(e) =>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { FaMapMarkerAlt, FaPhoneVolume } from "react-icons/fa";
 import { MdEmail, MdOutlineCategory } from "react-icons/md";
 import { TbPackageExport } from "react-icons/tb";
@@ -10,6 +10,7 @@ import Carousel from "../components/web/carousel"; // Adjust path as per your pr
 const Weblayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(window.location.pathname);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -17,8 +18,15 @@ const Weblayout = ({ children }) => {
 
   const handleLinkClick = (path) => {
     setActiveLink(path);
-    if (isOpen) {
-      toggleMenu(); // Close the mobile menu when a link is clicked
+    if (path === "/katalog") {
+      // Directly navigate to the Katalog page and fetch all products
+      navigate("/katalog");
+      // Here, you can add logic to fetch all products if needed
+    } else {
+      if (isOpen) {
+        toggleMenu(); // Close the mobile menu when a link is clicked
+      }
+      navigate(path); // Navigate to the selected page
     }
   };
 

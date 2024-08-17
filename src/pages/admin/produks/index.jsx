@@ -6,8 +6,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const baseURL = "http://localhost:5000"; // Base URL untuk gambar (jika ada gambar produk)
-
 const ProdukIndex = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -90,7 +88,7 @@ const ProdukIndex = () => {
           <input
             type="text"
             placeholder="Cari produk..."
-            className="p-3 border border-gray-300 rounded-lg w-full md:w-1/3 mr-4"
+            className="p-2 border border-gray-300 rounded-lg w-full md:w-1/3 mr-4"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -115,7 +113,7 @@ const ProdukIndex = () => {
                     <td className="py-3 px-4 text-gray-700">{index + 1}</td>
                     <td className="py-3 px-4 text-gray-700">{product.nama}</td>
                     <td className="py-3 px-4 text-gray-700">
-                      {product.kategori?.nama || "Tidak ada kategori"}
+                      {product.kategori?.namaKategori || "Tidak ada kategori"}
                     </td>
                     <td className="py-3 px-4 flex justify-center space-x-2">
                       <button

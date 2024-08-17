@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import WebLayout from "../../../layouts/Weblayout";
-import Api from "../../../services/api";
-
-const baseURL = "http://localhost:5000"; // Tambahkan baseURL di frontend
+import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
 
 const Journey = () => {
   const [journeys, setJourneys] = useState([]);
@@ -14,7 +12,7 @@ const Journey = () => {
         const data = response.data.map((journey) => ({
           ...journey,
           tanggal: new Date(journey.tanggal).toISOString().split("T")[0], // Format tanggal menjadi YYYY-MM-DD
-          gambar: journey.gambar.map((img) => baseURL + img), // Tambahkan baseURL di frontend
+          gambar: journey.gambar.map((img) => getImageURL(img)), // Gunakan getImageURL untuk URL gambar
         }));
         setJourneys(data);
       } catch (error) {

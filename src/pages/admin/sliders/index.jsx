@@ -1,12 +1,14 @@
 import AdminLayout from "../../../layouts/Adminlayout";
 import React, { useState, useEffect } from "react";
-import Api from "../../../services/api";
+import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
 import { FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SliderIndex = () => {
   const [sliders, setSliders] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedSlider, setSelectedSlider] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSliders();
@@ -15,16 +17,10 @@ const SliderIndex = () => {
   const fetchSliders = async () => {
     try {
       const response = await Api.get("/slider");
-      console.log(response.data);
       setSliders(response.data);
     } catch (error) {
       console.error("Error fetching sliders:", error);
     }
-  };
-
-  const getFullImagePath = (path) => {
-    const baseURL = "http://localhost:5000";
-    return `${baseURL}${path}`;
   };
 
   const handleDeleteClick = (slider) => {
@@ -46,6 +42,10 @@ const SliderIndex = () => {
     setShowModal(false);
   };
 
+  const handleAddClick = () => {
+    navigate("/admin/sliders/create");
+  };
+
   return (
     <AdminLayout>
       <div className="container mx-auto p-4">
@@ -53,7 +53,7 @@ const SliderIndex = () => {
         <div className="flex justify-end mb-4">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-            onClick={() => (window.location.href = "/admin/sliders/create")}
+            onClick={handleAddClick}
           >
             Tambah Baru
           </button>
@@ -75,7 +75,7 @@ const SliderIndex = () => {
                   </td>
                   <td className="px-4 py-2 border-b text-center">
                     <img
-                      src={getFullImagePath(slider.gambar)}
+                      src={getImageURL(slider.gambar)} // Gunakan getImageURL untuk mendapatkan URL gambar lengkap
                       alt={`Slider ${index + 1}`}
                       className="w-auto h-48 object-cover mx-auto" // Gambar lebih besar
                     />

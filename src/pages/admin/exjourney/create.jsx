@@ -5,15 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const baseURL = "http://localhost:5000";
-
 const CreateJourney = () => {
   const [judul, setJudul] = useState("");
   const [tanggal, setTanggal] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [gambar, setGambar] = useState([]);
   const [error, setError] = useState("");
-  const [fileError, setFileError] = useState(""); // Tambahkan state untuk error file
+  const [fileError, setFileError] = useState(""); 
 
   const navigate = useNavigate();
 

@@ -29,6 +29,7 @@ import AboutUs from "./pages/web/about/index";
 import ExJourney from "./pages/web/exjourney/index";
 import OrderUser from "./pages/web/order/index";
 import Katalog from "./pages/web/katalog/index";
+import ProductDetail from "./pages/web/detailproduk/index";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/admin/exjourney/index" element={<Journey />} />
         <Route path="/admin/exjourney/create" element={<CreateJourney />} />
         <Route path="/admin/journey/edit/:id" element={<EditJourney />} />
+        
 
         {/* Rute halaman beranda */}
         <Route path="/" element={<Home />} />
@@ -62,6 +64,7 @@ function App() {
         <Route path="/journey" element={<ExJourney />} />
         <Route path="/order" element={<OrderUser />} />
         <Route path="/katalog" element={<Katalog />} />
+        <Route path="/detailproduk/index" element={<ProductDetail />} />
 
         {/* Rute fallback untuk halaman 404 */}
         <Route

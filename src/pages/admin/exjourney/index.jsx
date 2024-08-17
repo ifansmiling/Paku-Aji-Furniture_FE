@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Api from "../../../services/api";
+import Api, { getImageURL } from "../../../services/api"; 
 import AdminLayout from "../../../layouts/Adminlayout";
-import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const baseURL = "http://localhost:5000"; // Base URL untuk gambar
 
 const Index = () => {
   const [journeys, setJourneys] = useState([]);
@@ -41,8 +39,7 @@ const Index = () => {
       try {
         await Api.delete(`/journey/${journeyToDelete}`);
         toast.success("Journey deleted successfully!");
-        // Refresh the list immediately
-        fetchJourneys();
+        fetchJourneys(); // Refresh the list immediately
       } catch (error) {
         console.error("Error deleting journey:", error);
         toast.error("Error deleting journey: " + error.message);
@@ -102,7 +99,7 @@ const Index = () => {
                           ? journey.gambar.map((imageURL, i) => (
                               <img
                                 key={i}
-                                src={baseURL + imageURL}
+                                src={getImageURL(imageURL)} // Gunakan getImageURL untuk mendapatkan URL gambar lengkap
                                 alt={`Journey ${journey.judul} Image ${i + 1}`}
                                 className="w-24 h-16 object-cover rounded-md shadow-sm"
                                 onError={(e) =>

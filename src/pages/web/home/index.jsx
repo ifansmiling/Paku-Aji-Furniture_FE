@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Api from "../../../services/api";
+import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Weblayout from "../../../layouts/Weblayout";
-
-const baseURL = "http://localhost:5000";
+import { Link } from "react-router-dom";
 
 const HomeCards = () => {
   const [categories, setCategories] = useState([]);
@@ -57,10 +56,6 @@ const HomeCards = () => {
     fetchLatestProducts();
   }, []);
 
-  const getFullImagePath = (path) => {
-    return `${baseURL}${path}`;
-  };
-
   const formatPrice = (price) => {
     let formattedPrice = new Intl.NumberFormat("id-ID", {
       style: "currency",
@@ -86,27 +81,27 @@ const HomeCards = () => {
             <h2 className="text-center mb-4 font-serif text-2xl font-normal text-[#433527]">
               Produk Terbaru Kami
             </h2>
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
               {latestProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-52 p-0"
+                  className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-52 p-0 hover:shadow-lg transition-shadow duration-300"
                 >
-                  <div
-                    className="w-full"
+                  <Link
+                    to={`/detailproduk/index/${product.id}`}
+                    className="relative w-full overflow-hidden"
                     style={{
                       position: "relative",
                       paddingTop: "100%",
-                      overflow: "hidden",
                       borderRadius: "12px 12px 0 0",
                     }}
                   >
                     <img
-                      src={getFullImagePath(product.gambar)}
+                      src={getImageURL(product.gambar)} // Gunakan getImageURL untuk URL gambar lengkap
                       alt={product.nama}
-                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                     />
-                  </div>
+                  </Link>
                   <div className="flex flex-col items-center p-2">
                     <h3 className="text-l font-sans mb-2 text-center">
                       {product.nama}
@@ -120,8 +115,7 @@ const HomeCards = () => {
                           href={product.linkTokopedia}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm"
-                          style={{ backgroundColor: "#916131" }}
+                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                         >
                           Tokopedia
                         </a>
@@ -131,8 +125,7 @@ const HomeCards = () => {
                           href={product.linkShopee}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm"
-                          style={{ backgroundColor: "#916131" }}
+                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                         >
                           Shopee
                         </a>
@@ -142,8 +135,7 @@ const HomeCards = () => {
                           href={`https://wa.me/${product.linkWhatsApp}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm"
-                          style={{ backgroundColor: "#916131" }}
+                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                         >
                           WhatsApp
                         </a>
@@ -184,7 +176,7 @@ const HomeCards = () => {
                 }}
               >
                 <img
-                  src={getFullImagePath(category.gambar)}
+                  src={getImageURL(category.gambar)} // Gunakan getImageURL untuk URL gambar lengkap
                   className="card-img-top"
                   alt={category.namaKategori}
                   style={{ height: "100%", width: "100%", objectFit: "cover" }}
@@ -202,27 +194,27 @@ const HomeCards = () => {
         <h2 className="text-center mb-4 font-serif text-2xl font-normal text-[#433527]">
           Produk Kami
         </h2>
-        <div className="flex flex-wrap justify-center gap-3">
-          {products.slice(0, 12).map((product, index) => (
+        <div className="flex flex-wrap justify-center gap-5">
+          {products.slice(0, 12).map((product) => (
             <div
               key={product.id}
-              className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-44 p-0"
+              className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-44 p-0 hover:shadow-lg transition-shadow duration-300"
             >
-              <div
-                className="w-full"
+              <Link
+                to={`/detailproduk/index/${product.id}`}
+                className="relative w-full overflow-hidden"
                 style={{
                   position: "relative",
                   paddingTop: "100%",
-                  overflow: "hidden",
                   borderRadius: "12px 12px 0 0",
                 }}
               >
                 <img
-                  src={getFullImagePath(product.gambar)}
+                  src={getImageURL(product.gambar)} // Gunakan getImageURL untuk URL gambar lengkap
                   alt={product.nama}
-                  className="absolute top-0 left-0 w-full h-full object-cover"
+                  className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                 />
-              </div>
+              </Link>
               <div className="flex flex-col items-center p-2">
                 <h3 className="text-sm font-sans mb-2 text-center">
                   {product.nama}
@@ -236,8 +228,7 @@ const HomeCards = () => {
                       href={product.linkTokopedia}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full text-center py-1 px-5 rounded-md text-white text-xs"
-                      style={{ backgroundColor: "#916131" }}
+                      className="w-full text-center py-1 px-5 rounded-md text-white text-xs bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                     >
                       Tokopedia
                     </a>
@@ -247,8 +238,7 @@ const HomeCards = () => {
                       href={product.linkShopee}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                      style={{ backgroundColor: "#916131" }}
+                      className="w-full text-center py-1 px-4 rounded-md text-white text-xs bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                     >
                       Shopee
                     </a>
@@ -258,8 +248,7 @@ const HomeCards = () => {
                       href={`https://wa.me/${product.linkWhatsApp}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full text-center py-1 px-4 rounded-md text-white text-xs"
-                      style={{ backgroundColor: "#916131" }}
+                      className="w-full text-center py-1 px-4 rounded-md text-white text-xs bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                     >
                       WhatsApp
                     </a>
