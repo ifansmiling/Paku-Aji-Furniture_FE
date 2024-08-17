@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate, useLocation } from "react-router-dom"; // Import useLocation
 import { FaMapMarkerAlt, FaPhoneVolume } from "react-icons/fa";
 import { MdEmail, MdOutlineCategory } from "react-icons/md";
 import { TbPackageExport } from "react-icons/tb";
 import { GrCircleInformation } from "react-icons/gr";
 import { LuHome } from "react-icons/lu";
-import Carousel from "../components/web/carousel"; // Adjust path as per your project structure
+import Carousel from "../components/web/carousel"; // Import Carousel
 
 const Weblayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(window.location.pathname);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+  const location = useLocation(); // Get the current location
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -19,9 +20,7 @@ const Weblayout = ({ children }) => {
   const handleLinkClick = (path) => {
     setActiveLink(path);
     if (path === "/katalog") {
-      // Directly navigate to the Katalog page and fetch all products
       navigate("/katalog");
-      // Here, you can add logic to fetch all products if needed
     } else {
       if (isOpen) {
         toggleMenu(); // Close the mobile menu when a link is clicked
@@ -29,6 +28,11 @@ const Weblayout = ({ children }) => {
       navigate(path); // Navigate to the selected page
     }
   };
+
+  // Cek apakah halaman saat ini adalah halaman detail produk
+  const isDetailProductPage = location.pathname.startsWith(
+    "/detailproduk/index/"
+  );
 
   return (
     <div className="flex flex-col min-h-screen mt-4">
@@ -190,10 +194,13 @@ const Weblayout = ({ children }) => {
           </div>
         </div>
       </nav>
-      {/* Carousel */}
-      <Carousel /> {/* Add Carousel component here */}
+
+      {/* Conditionally render the Carousel */}
+      {!isDetailProductPage && <Carousel />}
+
       {/* Main Content */}
       <main className="flex-grow">{children}</main>
+
       {/* Footer */}
       <footer className="bg-gray-300 text-black py-6">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start">

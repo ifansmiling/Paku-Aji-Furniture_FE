@@ -122,7 +122,7 @@ const Index = () => {
                   }}
                 >
                   <img
-                    src={getImageURL(product.gambar)} // Gunakan getImageURL untuk URL gambar lengkap
+                    src={getImageURL(product.gambar[0])} // Mengambil gambar pertama dari array
                     alt={product.nama}
                     className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                   />

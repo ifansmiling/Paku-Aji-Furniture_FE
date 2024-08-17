@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Api from "../../../services/api";
+import Api, { getImageURL } from "../../../services/api"; // Import getImageURL
 import AdminLayout from "../../../layouts/Adminlayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const baseURL = "http://localhost:5000";
 
 const EditJourney = () => {
   const [judul, setJudul] = useState("");
@@ -30,10 +28,8 @@ const EditJourney = () => {
         if (Array.isArray(journey.gambar)) {
           setExistingImages(journey.gambar);
         } else if (typeof journey.gambar === "string") {
-          // Jika journey.gambar adalah string, misalnya "image1.png,image2.png"
           setExistingImages(journey.gambar.split(","));
         } else {
-          // Default jika tipe data tidak sesuai
           setExistingImages([]);
         }
       } catch (error) {
@@ -52,7 +48,6 @@ const EditJourney = () => {
 
     files.forEach((file) => {
       if (file.size > 500 * 1024) {
-        // 500KB dalam bytes
         invalidFiles.push(file.name);
       } else {
         validFiles.push(file);
@@ -65,21 +60,6 @@ const EditJourney = () => {
     } else {
       setError(""); // Reset error jika semua file valid
       setGambar(validFiles);
-    }
-  };
-
-  const handleImageDelete = async (imageURL) => {
-    try {
-      const filename = imageURL.split("/").pop(); // Extract filename from URL
-      await Api.delete(`/journey/image/${filename}`);
-
-      // Update state to remove the deleted image
-      const updatedImages = existingImages.filter((img) => img !== imageURL);
-      setExistingImages(updatedImages);
-
-      toast.success("Image deleted successfully!");
-    } catch (error) {
-      toast.error("Error deleting image: " + error.message);
     }
   };
 
@@ -201,29 +181,10 @@ const EditJourney = () => {
                       {existingImages.map((imageURL, index) => (
                         <div key={index} className="relative">
                           <img
-                            src={baseURL + imageURL}
+                            src={getImageURL(imageURL)} // Menggunakan getImageURL
                             alt={`Existing Image ${index + 1}`}
                             className="w-24 h-16 object-cover rounded-md shadow-sm"
                           />
-                          <button
-                            type="button"
-                            className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
-                            onClick={() => handleImageDelete(imageURL)}
-                            aria-label="Delete image"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-4 w-4"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path d="M18 6L6 18M6 6l12 12" />
-                            </svg>
-                          </button>
                         </div>
                       ))}
                     </div>

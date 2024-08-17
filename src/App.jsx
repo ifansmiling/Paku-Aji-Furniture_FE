@@ -64,7 +64,7 @@ function App() {
         <Route path="/journey" element={<ExJourney />} />
         <Route path="/order" element={<OrderUser />} />
         <Route path="/katalog" element={<Katalog />} />
-        <Route path="/detailproduk/index" element={<ProductDetail />} />
+        <Route path="/detailproduk/index/:id" element={<ProductDetail />} />
 
         {/* Rute fallback untuk halaman 404 */}
         <Route

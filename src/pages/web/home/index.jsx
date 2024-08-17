@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
+import Api, { getImageURL } from "../../../services/api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Weblayout from "../../../layouts/Weblayout";
@@ -70,6 +70,14 @@ const HomeCards = () => {
     return formattedPrice;
   };
 
+  const getFirstImageURL = (gambar) => {
+    // Check if gambar is an array or a string
+    if (Array.isArray(gambar)) {
+      return getImageURL(gambar[0]);
+    }
+    return getImageURL(gambar);
+  };
+
   return (
     <Weblayout>
       <div className="mt-8 container">
@@ -97,7 +105,7 @@ const HomeCards = () => {
                     }}
                   >
                     <img
-                      src={getImageURL(product.gambar)} // Gunakan getImageURL untuk URL gambar lengkap
+                      src={getFirstImageURL(product.gambar)} // Use only the first image
                       alt={product.nama}
                       className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                     />
@@ -176,7 +184,7 @@ const HomeCards = () => {
                 }}
               >
                 <img
-                  src={getImageURL(category.gambar)} // Gunakan getImageURL untuk URL gambar lengkap
+                  src={getFirstImageURL(category.gambar)} // Use only the first image
                   className="card-img-top"
                   alt={category.namaKategori}
                   style={{ height: "100%", width: "100%", objectFit: "cover" }}
@@ -210,7 +218,7 @@ const HomeCards = () => {
                 }}
               >
                 <img
-                  src={getImageURL(product.gambar)} // Gunakan getImageURL untuk URL gambar lengkap
+                  src={getFirstImageURL(product.gambar)} // Use only the first image
                   alt={product.nama}
                   className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                 />

@@ -20,7 +20,7 @@ const CreateProduct = () => {
     linkTokopedia: "",
   });
 
-  const [gambar, setGambar] = useState(null);
+  const [gambar, setGambar] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
   const [fileError, setFileError] = useState(""); // Error file
@@ -72,14 +72,14 @@ const CreateProduct = () => {
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.size > 500 * 1024) {
+    const files = Array.from(e.target.files);
+    if (files.some((file) => file.size > 500 * 1024)) {
       // 500KB in bytes
       setFileError("Ukuran file tidak boleh melebihi 500KB.");
-      setGambar(null);
+      setGambar([]);
     } else {
       setFileError("");
-      setGambar(file);
+      setGambar(files);
     }
   };
 
@@ -100,9 +100,7 @@ const CreateProduct = () => {
           : productData[key]
       );
     });
-    if (gambar) {
-      formData.append("gambar", gambar);
-    }
+    gambar.forEach((file) => formData.append("gambar", file)); // Menambahkan setiap file gambar ke FormData
 
     try {
       await Api.post("/produk", formData, {
@@ -190,13 +188,31 @@ const CreateProduct = () => {
                 type="file"
                 id="gambar"
                 name="gambar"
+                multiple // Menambahkan atribut multiple
                 onChange={handleFileChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-gray-900 file:border-none file:bg-gray-50 file:py-3 file:px-5 file:rounded-md file:text-gray-700 file:cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
                 required
               />
               <small className="block mt-1 text-gray-500 italic">
-                * Maks 500KB
+                * Maks 500KB per file
               </small>
+              {gambar.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-gray-700 text-lg font-medium">
+                    Preview Gambar:
+                  </h4>
+                  <div className="flex flex-wrap gap-4 mt-2">
+                    {Array.from(gambar).map((file, index) => (
+                      <img
+                        key={index}
+                        src={URL.createObjectURL(file)}
+                        alt={`preview-${index}`}
+                        className="w-28 h-28 object-cover rounded-md border border-gray-300"
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <label
@@ -314,12 +330,12 @@ const CreateProduct = () => {
                 Link Shopee
               </label>
               <input
-                type="text"
+                type="url"
                 id="linkShopee"
                 name="linkShopee"
                 value={productData.linkShopee}
                 onChange={handleChange}
-                placeholder="Masukkan link Shopee"
+                placeholder="Masukkan link Shopee produk"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
               />
             </div>
@@ -331,12 +347,12 @@ const CreateProduct = () => {
                 Link WhatsApp
               </label>
               <input
-                type="text"
+                type="url"
                 id="linkWhatsApp"
                 name="linkWhatsApp"
                 value={productData.linkWhatsApp}
                 onChange={handleChange}
-                placeholder="Masukkan link WhatsApp"
+                placeholder="Masukkan link WhatsApp produk"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
               />
             </div>
@@ -348,30 +364,21 @@ const CreateProduct = () => {
                 Link Tokopedia
               </label>
               <input
-                type="text"
+                type="url"
                 id="linkTokopedia"
                 name="linkTokopedia"
                 value={productData.linkTokopedia}
                 onChange={handleChange}
-                placeholder="Masukkan link Tokopedia"
+                placeholder="Masukkan link Tokopedia produk"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
               />
             </div>
-            <div className="flex flex-col gap-4">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
-              >
-                Tambah Produk
-              </button>
-              <button
-                type="button"
-                className="bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors duration-300"
-                onClick={() => (window.location.href = "/admin/produks/index")}
-              >
-                Batal
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full bg-[#CD9D6D] text-white py-3 px-6 rounded-md shadow-lg hover:bg-[#b57c6f] focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+            >
+              Simpan Produk
+            </button>
           </form>
         </div>
       </div>
