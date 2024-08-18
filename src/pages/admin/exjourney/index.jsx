@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Api, { getImageURL } from "../../../services/api"; 
+import Api, { getImageURL } from "../../../services/api";
 import AdminLayout from "../../../layouts/Adminlayout";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ const Index = () => {
       setJourneys(response.data);
     } catch (error) {
       console.error("Error fetching journeys:", error);
+      toast.error("Error fetching journeys: " + error.message);
     }
   };
 
@@ -99,7 +100,7 @@ const Index = () => {
                           ? journey.gambar.map((imageURL, i) => (
                               <img
                                 key={i}
-                                src={getImageURL(imageURL)} // Gunakan getImageURL untuk mendapatkan URL gambar lengkap
+                                src={getImageURL(imageURL)}
                                 alt={`Journey ${journey.judul} Image ${i + 1}`}
                                 className="w-24 h-16 object-cover rounded-md shadow-sm"
                                 onError={(e) =>

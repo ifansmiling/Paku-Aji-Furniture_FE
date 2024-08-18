@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Weblayout from "../../../layouts/Weblayout";
-import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
-import { Link } from "react-router-dom";
+import Api, { getImageURL } from "../../../services/api";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [showProducts, setShowProducts] = useState(true); // Default true untuk menampilkan produk
+  const [showProducts, setShowProducts] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -23,44 +26,44 @@ const Index = () => {
       try {
         const response = await Api.get("/produk");
         setProducts(response.data);
-        setShowProducts(true); // Tampilkan produk saat data berhasil diambil
+        setShowProducts(true);
       } catch (error) {
         console.error("Error fetching products", error);
       }
     };
 
+    const fetchProductsByCategory = async (kategoriId) => {
+      try {
+        const response = await Api.get(`/produk/kategori/${kategoriId}`);
+        setProducts(response.data);
+        setShowProducts(true);
+      } catch (error) {
+        console.error("Error fetching products by category", error);
+      }
+    };
+
     fetchCategories();
-    fetchAllProducts(); // Ambil produk saat komponen dimuat
-  }, []);
 
-  const fetchProductsByCategory = async (kategoriId) => {
-    try {
-      const response = await Api.get(`/produk/kategori/${kategoriId}`);
-      setProducts(response.data);
-      setShowProducts(true); // Tampilkan produk saat data berhasil diambil
-    } catch (error) {
-      console.error("Error fetching products by category", error);
-    }
-  };
+    // Cek apakah ada parameter kategori di URL
+    const queryParams = new URLSearchParams(location.search);
+    const kategoriId = queryParams.get("kategori");
 
-  const fetchAllProducts = async () => {
-    try {
-      const response = await Api.get("/produk");
-      setProducts(response.data);
-      setShowProducts(true); // Tampilkan produk saat data berhasil diambil
-    } catch (error) {
-      console.error("Error fetching all products", error);
+    if (kategoriId) {
+      setSelectedCategory(kategoriId);
+      fetchProductsByCategory(kategoriId);
+    } else {
+      fetchAllProducts();
     }
-  };
+  }, [location]);
 
   const handleCategoryClick = (kategoriId) => {
     setSelectedCategory(kategoriId);
-    fetchProductsByCategory(kategoriId);
+    navigate(`?kategori=${kategoriId}`); // Update URL dengan parameter kategori
   };
 
   const handleShowAllProducts = () => {
-    fetchAllProducts(); // Ambil semua produk
-    setSelectedCategory(null); // Reset kategori yang dipilih
+    setSelectedCategory(null);
+    navigate(""); // Hapus parameter kategori dari URL
   };
 
   const formatPrice = (price) => {
@@ -79,8 +82,8 @@ const Index = () => {
 
   return (
     <Weblayout>
-      <div className="mt-8 container px-4">
-        <div className="font-medium text-center mb-3 text-2xl text-[#433527] font-serif mt-5">
+      <div className="mt-10 container px-4">
+        <div className="font-medium text-center mb-3 text-2xl text-[#433527] font-serif mt-20">
           Katalog Produk
         </div>
         <div className="text-center mb-4 font-sans">
@@ -110,7 +113,7 @@ const Index = () => {
               <div
                 key={product.id}
                 className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-44 p-0 hover:shadow-lg transition-shadow duration-300"
-                style={{ maxWidth: "200px", margin: "0 8px" }} // Menyesuaikan maxWidth
+                style={{ maxWidth: "200px", margin: "0 8px" }}
               >
                 <Link
                   to={`/detailproduk/index/${product.id}`}
@@ -122,7 +125,7 @@ const Index = () => {
                   }}
                 >
                   <img
-                    src={getImageURL(product.gambar[0])} // Mengambil gambar pertama dari array
+                    src={getImageURL(product.gambar[0])}
                     alt={product.nama}
                     className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                   />

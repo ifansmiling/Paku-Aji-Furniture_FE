@@ -71,7 +71,6 @@ const HomeCards = () => {
   };
 
   const getFirstImageURL = (gambar) => {
-    // Check if gambar is an array or a string
     if (Array.isArray(gambar)) {
       return getImageURL(gambar[0]);
     }
@@ -105,7 +104,7 @@ const HomeCards = () => {
                     }}
                   >
                     <img
-                      src={getFirstImageURL(product.gambar)} // Use only the first image
+                      src={getFirstImageURL(product.gambar)}
                       alt={product.nama}
                       className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                     />
@@ -139,14 +138,30 @@ const HomeCards = () => {
                         </a>
                       )}
                       {product.linkWhatsApp && (
-                        <a
-                          href={`https://wa.me/${product.linkWhatsApp}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
-                        >
-                          WhatsApp
-                        </a>
+                        <>
+                          {console.log(
+                            `Generated WhatsApp URL: https://wa.me/${product.linkWhatsApp.replace(
+                              /^https?:\/\/(wa\.me|whatsapp\.com)\//,
+                              ""
+                            )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
+                              product.nama
+                            )}.%20Apakah%20masih%20tersedia?`
+                          )}
+
+                          <a
+                            href={`https://wa.me/${product.linkWhatsApp.replace(
+                              /^https?:\/\/(wa\.me|whatsapp\.com)\//,
+                              ""
+                            )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
+                              product.nama
+                            )}.%20Apakah%20masih%20tersedia?`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
+                          >
+                            WhatsApp
+                          </a>
+                        </>
                       )}
                     </div>
                   </div>
@@ -161,8 +176,9 @@ const HomeCards = () => {
         </h2>
         <div className="d-flex flex-wrap justify-content-center">
           {categories.map((category) => (
-            <div
+            <Link
               key={category.id}
+              to={`/katalog?kategori=${category.id}`}
               className="d-flex flex-column align-items-center mx-2 mb-3 font-sans text-custom-brown"
               style={{
                 border: "2px solid #CD9D6D",
@@ -184,7 +200,7 @@ const HomeCards = () => {
                 }}
               >
                 <img
-                  src={getFirstImageURL(category.gambar)} // Use only the first image
+                  src={getFirstImageURL(category.gambar)}
                   className="card-img-top"
                   alt={category.namaKategori}
                   style={{ height: "100%", width: "100%", objectFit: "cover" }}
@@ -195,7 +211,7 @@ const HomeCards = () => {
                   {category.namaKategori}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -218,7 +234,7 @@ const HomeCards = () => {
                 }}
               >
                 <img
-                  src={getFirstImageURL(product.gambar)} // Use only the first image
+                  src={getFirstImageURL(product.gambar)}
                   alt={product.nama}
                   className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-300 transform hover:scale-105"
                 />
@@ -252,14 +268,30 @@ const HomeCards = () => {
                     </a>
                   )}
                   {product.linkWhatsApp && (
-                    <a
-                      href={`https://wa.me/${product.linkWhatsApp}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full text-center py-1 px-4 rounded-md text-white text-xs bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
-                    >
-                      WhatsApp
-                    </a>
+                    <>
+                      {console.log(
+                        `Generated WhatsApp URL: https://wa.me/${product.linkWhatsApp.replace(
+                          /^https?:\/\/(wa\.me|whatsapp\.com)\//,
+                          ""
+                        )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
+                          product.nama
+                        )}.%20Apakah%20masih%20tersedia?`
+                      )}
+
+                      <a
+                        href={`https://wa.me/${product.linkWhatsApp.replace(
+                          /^https?:\/\/(wa\.me|whatsapp\.com)\//,
+                          ""
+                        )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
+                          product.nama
+                        )}.%20Apakah%20masih%20tersedia?`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
+                      >
+                        WhatsApp
+                      </a>
+                    </>
                   )}
                 </div>
               </div>

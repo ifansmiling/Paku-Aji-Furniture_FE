@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Api from "../../../services/api";
 import { useNavigate } from "react-router-dom";
-import AdminLayout from "../../../layouts/Adminlayout";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminLayout from "../../../layouts/Adminlayout"; // Sesuaikan dengan struktur proyek Anda
 
 const CreateProduct = () => {
   const [productData, setProductData] = useState({
@@ -23,7 +23,7 @@ const CreateProduct = () => {
   const [gambar, setGambar] = useState([]);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState("");
-  const [fileError, setFileError] = useState(""); // Error file
+  const [fileError, setFileError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -74,7 +74,6 @@ const CreateProduct = () => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.some((file) => file.size > 500 * 1024)) {
-      // 500KB in bytes
       setFileError("Ukuran file tidak boleh melebihi 500KB.");
       setGambar([]);
     } else {
@@ -87,23 +86,44 @@ const CreateProduct = () => {
     e.preventDefault();
 
     if (fileError) {
-      toast.error(fileError); // Show file error
+      toast.error(fileError);
+      return;
+    }
+
+    // Pastikan hanya nomor telepon yang dikirimkan ke backend
+    const sanitizedWhatsAppNumber = productData.linkWhatsApp.replace(
+      /[^0-9]/g,
+      ""
+    );
+
+    // Validasi nomor WhatsApp
+    if (
+      sanitizedWhatsAppNumber.length < 10 ||
+      sanitizedWhatsAppNumber.length > 15
+    ) {
+      setError(
+        "Format nomor WhatsApp tidak valid. Pastikan nomor berisi 10-15 digit angka."
+      );
+      toast.error(
+        "Format nomor WhatsApp tidak valid. Pastikan nomor berisi 10-15 digit angka."
+      );
       return;
     }
 
     const formData = new FormData();
     Object.keys(productData).forEach((key) => {
-      formData.append(
-        key,
-        key === "harga"
-          ? productData[key].replace(/[^,\d]/g, "")
-          : productData[key]
-      );
+      if (key === "linkWhatsApp") {
+        formData.append(key, sanitizedWhatsAppNumber);
+      } else if (key === "harga") {
+        formData.append(key, productData[key].replace(/[^0-9]/g, ""));
+      } else {
+        formData.append(key, productData[key]);
+      }
     });
-    gambar.forEach((file) => formData.append("gambar", file)); // Menambahkan setiap file gambar ke FormData
+    gambar.forEach((file) => formData.append("gambar", file));
 
     try {
-      await Api.post("/produk", formData, {
+      const response = await Api.post("/produk", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -111,8 +131,9 @@ const CreateProduct = () => {
       toast.success("Produk berhasil ditambahkan");
       setTimeout(() => {
         navigate("/admin/produks/index");
-      }, 2000); // Delay 2 detik sebelum mengarahkan ulang
+      }, 2000);
     } catch (error) {
+      console.error("Error creating product:", error.response || error.message);
       setError("Gagal membuat produk. Silakan periksa input Anda.");
       toast.error("Gagal membuat produk. Silakan periksa input Anda.");
     }
@@ -188,7 +209,7 @@ const CreateProduct = () => {
                 type="file"
                 id="gambar"
                 name="gambar"
-                multiple // Menambahkan atribut multiple
+                multiple
                 onChange={handleFileChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm text-gray-900 file:border-none file:bg-gray-50 file:py-3 file:px-5 file:rounded-md file:text-gray-700 file:cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
                 required
@@ -344,15 +365,15 @@ const CreateProduct = () => {
                 htmlFor="linkWhatsApp"
                 className="block text-gray-700 text-lg font-medium mb-2"
               >
-                Link WhatsApp
+                Nomor WhatsApp
               </label>
               <input
-                type="url"
+                type="text"
                 id="linkWhatsApp"
                 name="linkWhatsApp"
                 value={productData.linkWhatsApp}
                 onChange={handleChange}
-                placeholder="Masukkan link WhatsApp produk"
+                placeholder="Masukkan nomor WhatsApp (misal: 628********)"
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
               />
             </div>
@@ -375,9 +396,16 @@ const CreateProduct = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#CD9D6D] text-white py-3 px-6 rounded-md shadow-lg hover:bg-[#b57c6f] focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
+              className="w-full bg-[#CD9D6D] text-white py-2 px-6 rounded-md shadow-lg hover:bg-[#b57c6f] focus:outline-none focus:ring-2 focus:ring-[#CD9D6D]"
             >
               Simpan Produk
+            </button>
+            <button
+              type="button"
+              className="w-full bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors duration-300"
+              onClick={() => navigate("/admin/produks/index")}
+            >
+              Batal
             </button>
           </form>
         </div>

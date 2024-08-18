@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom"; // Import useLocation
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaMapMarkerAlt, FaPhoneVolume } from "react-icons/fa";
 import { MdEmail, MdOutlineCategory } from "react-icons/md";
 import { TbPackageExport } from "react-icons/tb";
 import { GrCircleInformation } from "react-icons/gr";
 import { LuHome } from "react-icons/lu";
-import Carousel from "../components/web/carousel"; // Import Carousel
+import Carousel from "../components/web/carousel";
 
 const Weblayout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(window.location.pathname);
   const navigate = useNavigate();
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -23,16 +23,17 @@ const Weblayout = ({ children }) => {
       navigate("/katalog");
     } else {
       if (isOpen) {
-        toggleMenu(); // Close the mobile menu when a link is clicked
+        toggleMenu();
       }
-      navigate(path); // Navigate to the selected page
+      navigate(path);
     }
   };
 
-  // Cek apakah halaman saat ini adalah halaman detail produk
+  // Check if the current page is the detail product page or the katalog page
   const isDetailProductPage = location.pathname.startsWith(
     "/detailproduk/index/"
   );
+  const isDetailKatalogPage = location.pathname.startsWith("/katalog");
 
   return (
     <div className="flex flex-col min-h-screen mt-4">
@@ -196,7 +197,7 @@ const Weblayout = ({ children }) => {
       </nav>
 
       {/* Conditionally render the Carousel */}
-      {!isDetailProductPage && <Carousel />}
+      {!isDetailProductPage && !isDetailKatalogPage && <Carousel />}
 
       {/* Main Content */}
       <main className="flex-grow">{children}</main>
