@@ -88,11 +88,11 @@ const HomeCards = () => {
             <h2 className="text-center mb-4 font-serif text-2xl font-normal text-[#433527]">
               Produk Terbaru Kami
             </h2>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center lg:gap-2 xl:gap-1 mb-8">
               {latestProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-52 p-0 hover:shadow-lg transition-shadow duration-300"
+                  className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md p-0 hover:shadow-lg transition-shadow duration-300 max-w-[12rem] m-1"
                 >
                   <Link
                     to={`/detailproduk/index/${product.id}`}
@@ -110,10 +110,10 @@ const HomeCards = () => {
                     />
                   </Link>
                   <div className="flex flex-col items-center p-2">
-                    <h3 className="text-l font-sans mb-2 text-center">
+                    <h3 className="text-xs sm:text-l font-sans mb-2 text-center">
                       {product.nama}
                     </h3>
-                    <p className="text-sm text-black mb-2 text-center font-sans font-semibold">
+                    <p className="text-xs sm:text-sm text-black mb-2 text-center font-sans font-semibold">
                       {formatPrice(product.harga)}
                     </p>
                     <div className="flex flex-wrap items-center space-y-1 w-full">
@@ -122,7 +122,7 @@ const HomeCards = () => {
                           href={product.linkTokopedia}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
+                          className="w-full text-center py-1 px-2 sm:px-6 rounded-md text-white text-xs sm:text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                         >
                           Tokopedia
                         </a>
@@ -132,36 +132,25 @@ const HomeCards = () => {
                           href={product.linkShopee}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
+                          className="w-full text-center py-1 px-2 sm:px-6 rounded-md text-white text-xs sm:text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
                         >
                           Shopee
                         </a>
                       )}
                       {product.linkWhatsApp && (
-                        <>
-                          {console.log(
-                            `Generated WhatsApp URL: https://wa.me/${product.linkWhatsApp.replace(
-                              /^https?:\/\/(wa\.me|whatsapp\.com)\//,
-                              ""
-                            )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
-                              product.nama
-                            )}.%20Apakah%20masih%20tersedia?`
-                          )}
-
-                          <a
-                            href={`https://wa.me/${product.linkWhatsApp.replace(
-                              /^https?:\/\/(wa\.me|whatsapp\.com)\//,
-                              ""
-                            )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
-                              product.nama
-                            )}.%20Apakah%20masih%20tersedia?`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
-                          >
-                            WhatsApp
-                          </a>
-                        </>
+                        <a
+                          href={`https://wa.me/${product.linkWhatsApp.replace(
+                            /^https?:\/\/(wa\.me|whatsapp\.com)\//,
+                            ""
+                          )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
+                            product.nama
+                          )}.%20Apakah%20masih%20tersedia?`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full text-center py-1 px-2 sm:px-6 rounded-md text-white text-xs sm:text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
+                        >
+                          WhatsApp
+                        </a>
                       )}
                     </div>
                   </div>
@@ -218,11 +207,11 @@ const HomeCards = () => {
         <h2 className="text-center mb-4 font-serif text-2xl font-normal text-[#433527]">
           Produk Kami
         </h2>
-        <div className="flex flex-wrap justify-center gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 lg:gap-4 xl:gap-6 mb-8">
           {products.slice(0, 12).map((product) => (
             <div
               key={product.id}
-              className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-44 p-0 hover:shadow-lg transition-shadow duration-300"
+              className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full p-0 hover:shadow-lg transition-shadow duration-300"
             >
               <Link
                 to={`/detailproduk/index/${product.id}`}
@@ -268,30 +257,19 @@ const HomeCards = () => {
                     </a>
                   )}
                   {product.linkWhatsApp && (
-                    <>
-                      {console.log(
-                        `Generated WhatsApp URL: https://wa.me/${product.linkWhatsApp.replace(
-                          /^https?:\/\/(wa\.me|whatsapp\.com)\//,
-                          ""
-                        )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
-                          product.nama
-                        )}.%20Apakah%20masih%20tersedia?`
-                      )}
-
-                      <a
-                        href={`https://wa.me/${product.linkWhatsApp.replace(
-                          /^https?:\/\/(wa\.me|whatsapp\.com)\//,
-                          ""
-                        )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
-                          product.nama
-                        )}.%20Apakah%20masih%20tersedia?`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
-                      >
-                        WhatsApp
-                      </a>
-                    </>
+                    <a
+                      href={`https://wa.me/${product.linkWhatsApp.replace(
+                        /^https?:\/\/(wa\.me|whatsapp\.com)\//,
+                        ""
+                      )}?text=Halo%20Paku%20Aji,%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(
+                        product.nama
+                      )}.%20Apakah%20masih%20tersedia?`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full text-center py-1 px-6 rounded-md text-white text-sm bg-[#916131] hover:bg-[#7d4c28] transition-all duration-300"
+                    >
+                      WhatsApp
+                    </a>
                   )}
                 </div>
               </div>
@@ -303,16 +281,13 @@ const HomeCards = () => {
       <div className="mt-3 container text-center">
         <a
           href="/katalog"
-          className="inline-block bg-[#5a4d41] text-white font-serif text-sm font-normal py-2 px-6 rounded hover:bg-[#34291d] transition-all duration-300"
+          className="inline-block bg-[#5a4d41] text-white font-serif text-sm font-normal py-2 px-6 rounded hover:bg-[#34291d] transition-all duration-300 mb-4"
         >
           Lihat Selengkapnya
         </a>
       </div>
 
-      <div
-        className="relative flex flex-col justify-end items-center"
-        style={{ minHeight: "80vh" }}
-      >
+      <div className="relative flex flex-col justify-end items-center h-auto md:min-h-[80vh]">
         <div
           className="absolute inset-0 w-full h-full"
           style={{
@@ -333,9 +308,7 @@ const HomeCards = () => {
           </p>
           <a
             href="/order"
-            className="inline-block bg-white text-custom-brown font-semibold py-2 px-4 sm:px-6 md:px-8 rounded-full 
-       hover:bg-custom-hover hover:text-gray-800 transition-all duration-300
-       shadow-md hover:shadow-xl ring-2 ring-transparent hover:ring-custom-hover"
+            className="inline-block bg-white text-custom-brown font-semibold py-2 px-4 sm:px-6 md:px-8 rounded-full hover:bg-custom-hover hover:text-gray-800 transition-all duration-300 shadow-md hover:shadow-xl ring-2 ring-transparent hover:ring-custom-hover"
           >
             Custom Product
           </a>
