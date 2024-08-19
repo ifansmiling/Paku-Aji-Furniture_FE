@@ -97,7 +97,12 @@ const EditProduct = () => {
     Object.keys(productData).forEach((key) =>
       formData.append(key, productData[key])
     );
+
+    // Kirim gambar baru yang diunggah
     gambars.forEach((file) => formData.append("gambar", file));
+
+    // Kirim gambar lama yang masih ingin dipertahankan
+    existingGambars.forEach((img) => formData.append("existingGambars", img));
 
     try {
       await Api.put(`/produk/${id}`, formData, {
@@ -128,6 +133,7 @@ const EditProduct = () => {
             </div>
           )}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Nama */}
             <div>
               <label
                 htmlFor="nama"
@@ -145,6 +151,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Kategori */}
             <div>
               <label
                 htmlFor="kategoriId"
@@ -168,6 +175,7 @@ const EditProduct = () => {
               </select>
             </div>
 
+            {/* Harga */}
             <div>
               <label
                 htmlFor="harga"
@@ -185,6 +193,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Deskripsi Produk */}
             <div>
               <label
                 htmlFor="deskripsiProduk"
@@ -202,6 +211,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Warna */}
             <div>
               <label
                 htmlFor="warna"
@@ -219,6 +229,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Bahan */}
             <div>
               <label
                 htmlFor="bahan"
@@ -236,6 +247,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Dimensi */}
             <div>
               <label
                 htmlFor="dimensi"
@@ -253,6 +265,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Finishing */}
             <div>
               <label
                 htmlFor="finishing"
@@ -270,6 +283,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Link Shopee */}
             <div>
               <label
                 htmlFor="linkShopee"
@@ -286,6 +300,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Link WhatsApp */}
             <div>
               <label
                 htmlFor="linkWhatsApp"
@@ -302,6 +317,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Link Tokopedia */}
             <div>
               <label
                 htmlFor="linkTokopedia"
@@ -318,6 +334,7 @@ const EditProduct = () => {
               />
             </div>
 
+            {/* Gambar */}
             <div>
               <label
                 htmlFor="gambar"
@@ -359,6 +376,7 @@ const EditProduct = () => {
               )}
             </div>
 
+            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"

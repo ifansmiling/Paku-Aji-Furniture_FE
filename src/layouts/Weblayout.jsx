@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { FaMapMarkerAlt, FaPhoneVolume } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { IoLogoWhatsapp } from "react-icons/io";
 import { MdEmail, MdOutlineCategory } from "react-icons/md";
 import { TbPackageExport } from "react-icons/tb";
 import { GrCircleInformation } from "react-icons/gr";
@@ -49,28 +50,6 @@ const Weblayout = ({ children }) => {
               <img src="/logo2.png" alt="Logo 2" className="h-12 w-auto" />
             </a>
           </div>
-
-          {/* Mobile Menu Toggle Button */}
-          <button
-            onClick={toggleMenu}
-            className="block md:hidden px-3 py-2 text-black hover:text-[#916131] focus:outline-none"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-
           {/* Navigation Links */}
           <div className="hidden md:flex md:space-x-6">
             <Link
@@ -120,17 +99,11 @@ const Weblayout = ({ children }) => {
               <div>About Us</div>
             </Link>
           </div>
-        </div>
 
-        {/* Mobile Menu */}
-        <div
-          className={`fixed inset-0 bg-gray-300 text-black p-4 md:hidden transform ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          } transition-transform duration-300 ease-in-out`}
-        >
+          {/* Mobile Menu Toggle Button */}
           <button
             onClick={toggleMenu}
-            className="text-black hover:text-[#916131] absolute top-4 right-4"
+            className="block md:hidden px-3 py-2 text-black hover:text-[#916131] focus:outline-none"
           >
             <svg
               className="w-6 h-6"
@@ -143,20 +116,27 @@ const Weblayout = ({ children }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
+                d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
           </button>
-          <div className="flex flex-col space-y-4 mt-12">
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`overflow-hidden transition-all duration-300 ease-in-out bg-gray-300 text-black md:hidden ${
+            isOpen ? "max-h-screen" : "max-h-0"
+          }`}
+        >
+          <div className="flex flex-col space-y-4 p-4">
             <Link
-              to="/beranda"
+              to="/"
               className={`flex items-center text-xl ${
-                activeLink === "/beranda"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+                activeLink === "/" ? "text-[#916131]" : "hover:text-[#916131]"
               }`}
-              onClick={() => handleLinkClick("/beranda")}
+              onClick={() => handleLinkClick("/")}
             >
+              <LuHome className="mr-2" />
               Beranda
             </Link>
             <Link
@@ -168,6 +148,7 @@ const Weblayout = ({ children }) => {
               }`}
               onClick={() => handleLinkClick("/katalog")}
             >
+              <MdOutlineCategory className="mr-2" />
               Katalog
             </Link>
             <Link
@@ -179,6 +160,7 @@ const Weblayout = ({ children }) => {
               }`}
               onClick={() => handleLinkClick("/journey")}
             >
+              <TbPackageExport className="mr-2" />
               Export Journey
             </Link>
             <Link
@@ -190,6 +172,7 @@ const Weblayout = ({ children }) => {
               }`}
               onClick={() => handleLinkClick("/about")}
             >
+              <GrCircleInformation className="mr-2" />
               About Us
             </Link>
           </div>
@@ -204,25 +187,25 @@ const Weblayout = ({ children }) => {
 
       {/* Footer */}
       <footer className="bg-gray-300 text-black py-6">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start">
+        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-start">
           {/* Logo di Kiri Atas */}
           <div className="flex flex-col items-start mb-4 md:mb-0 w-full md:w-1/4">
             <div className="items-center">
               <img
                 src="/Logo.png"
                 alt="Logo"
-                className="h-20 w-auto mb-4 ml-20 items-center"
+                className="h-20 w-auto mb-4 ml-20 md:ml-0 items-center"
               />
             </div>
             <div className="flex items-center mb-2">
-              <FaMapMarkerAlt className="text-4xl mr-5" />
+              <FaMapMarkerAlt className="text-5xl mr-4" />
               <p className="text-base lg:text-l mr-6">
                 Lik Takaru, Kec. Kramat, Kabupaten Tegal, Jawa Tengah. Paku Aji
                 Furniture by CV Paku Aji Indonesia.
               </p>
             </div>
             <div className="flex items-center mb-2">
-              <FaPhoneVolume className="text-2xl mr-3" />
+              <IoLogoWhatsapp className="text-2xl mr-3" />
               <p className="text-base lg:text-l">085726061650</p>
             </div>
             <div className="flex items-center">
@@ -250,11 +233,11 @@ const Weblayout = ({ children }) => {
           </div>
 
           {/* Ikuti Kami dengan Media Sosial */}
-          <div className="flex flex-col items-start md:items-end w-full md:w-1/4">
-            <h2 className="text-lg font-semibold mb-4 mr-11">Ikuti Kami</h2>
-            <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col items-center md:items-end w-full md:w-1/4">
+            <h2 className="text-lg font-semibold mb-4 lg:mr-12">Ikuti Kami</h2>
+            <div className="flex flex-wrap gap-4 justify-center md:justify-end">
               <a
-                href="https://www.instagram.com"
+                href="https://www.instagram.com/pakuaji_furniture?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -265,7 +248,7 @@ const Weblayout = ({ children }) => {
                 />
               </a>
               <a
-                href="https://www.tokopedia.com"
+                href="https://tokopedia.link/NWa4oaLQbMb"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -276,7 +259,7 @@ const Weblayout = ({ children }) => {
                 />
               </a>
               <a
-                href="https://www.shopee.com"
+                href="https://shopee.co.id/pakuaji_01"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -287,7 +270,7 @@ const Weblayout = ({ children }) => {
                 />
               </a>
               <a
-                href="https://www.tiktok.com"
+                href="https://www.tiktok.com/@cvpakuaji"
                 target="_blank"
                 rel="noopener noreferrer"
               >

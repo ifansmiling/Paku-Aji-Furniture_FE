@@ -28,6 +28,7 @@ const HomeCards = () => {
         const response = await Api.get("/produk");
         let products = response.data;
 
+        // Randomize product order
         products = products.sort(() => Math.random() - 0.5);
         setProducts(products);
       } catch (error) {
@@ -38,11 +39,8 @@ const HomeCards = () => {
 
     const fetchLatestProducts = async () => {
       try {
-        const response = await Api.get("/produk");
-        const sortedProducts = response.data.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-        setLatestProducts(sortedProducts.slice(0, 4));
+        const response = await Api.get("/produk/latest/new");
+        setLatestProducts(response.data);
       } catch (error) {
         console.error("Error fetching latest products:", error);
         setError("Gagal mengambil produk terbaru. Silakan coba lagi nanti.");

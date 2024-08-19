@@ -67,7 +67,7 @@ const ProductDetail = () => {
           <p className="mt-2 text-2xl text-yellow-700">
             {formatPrice(productDetailItem.harga)}
           </p>
-          <p className="mt-6 text-gray-700">
+          <p className="mt-6 text-gray-700 text-justify">
             {productDetailItem.deskripsiProduk}
           </p>
 
