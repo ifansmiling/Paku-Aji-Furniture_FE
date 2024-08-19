@@ -57,7 +57,10 @@ const Weblayout = ({ children }) => {
               className={`flex items-center text-xl font-serif ${
                 activeLink === "/" ? "text-[#916131]" : "hover:text-[#916131]"
               }`}
-              onClick={() => handleLinkClick("/")}
+              onClick={() => {
+                handleLinkClick("/");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             >
               <LuHome className="mr-2" />
               <div>Beranda</div>
@@ -69,7 +72,10 @@ const Weblayout = ({ children }) => {
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
               }`}
-              onClick={() => handleLinkClick("/katalog")}
+              onClick={() => {
+                handleLinkClick("/katalog");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             >
               <MdOutlineCategory className="mr-2" />
               <div>Katalog</div>
@@ -81,7 +87,10 @@ const Weblayout = ({ children }) => {
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
               }`}
-              onClick={() => handleLinkClick("/journey")}
+              onClick={() => {
+                handleLinkClick("/journey");
+                window.scrollTo({ top: 0, behavior: "smooth"});
+              }}
             >
               <TbPackageExport className="mr-2" />
               Export Journey
@@ -93,7 +102,10 @@ const Weblayout = ({ children }) => {
                   ? "text-[#916131]"
                   : "hover:text-[#916131]"
               }`}
-              onClick={() => handleLinkClick("/about")}
+              onClick={() => {
+                handleLinkClick("/about");
+                window.scrollTo({ top: 0, behavior: "smooth"});
+              }}
             >
               <GrCircleInformation className="mr-2" />
               <div>About Us</div>

@@ -100,6 +100,9 @@ const HomeCards = () => {
                       paddingTop: "100%",
                       borderRadius: "12px 12px 0 0",
                     }}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
                   >
                     <img
                       src={getFirstImageURL(product.gambar)}
@@ -172,6 +175,9 @@ const HomeCards = () => {
                 borderRadius: "10px",
                 padding: "6px",
               }}
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
             >
               <div
                 className="card"
@@ -218,6 +224,9 @@ const HomeCards = () => {
                   position: "relative",
                   paddingTop: "100%",
                   borderRadius: "12px 12px 0 0",
+                }}
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
                 <img
@@ -298,7 +307,7 @@ const HomeCards = () => {
         ></div>
 
         <div className="text-center px-4 sm:px-6 md:px-8 lg:px-12 mb-6">
-          <h1 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold mb-2 sm:mb-4 md:mb-6 leading-tight text-white">
+          <h1 className="text-sm sm:text-base md:text-lg lg:text-4xl font-bold mb-2 sm:mb-4 md:mb-6 leading-tight text-white">
             Furniture Elegan, Hidup Lebih Nyaman
           </h1>
           <p className="text-xs sm:text-sm md:text-base lg:text-lg mb-2 sm:mb-4 md:mb-6 leading-relaxed text-white">

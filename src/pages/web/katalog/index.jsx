@@ -133,9 +133,9 @@ const Index = () => {
         <div className="text-center mb-4 font-sans">
           <button
             onClick={handleShowAllProducts}
-            className="bg-[#CD9D6D] text-white px-3 py-1 rounded-md hover:bg-[#745347] transition-colors duration-300 ease-in-out transform hover:scale-100"
+            className="bg-slate-500 text-white px-3 py-1 rounded-md hover:bg-[#745347] transition-colors duration-300 ease-in-out transform hover:scale-100"
           >
-            Semua Produk
+            Tampilkan Semua Produk
           </button>
         </div>
 
@@ -148,29 +148,12 @@ const Index = () => {
             Search
           </label>
           <div className="relative w-full">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-[#745347]"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 21 21"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M11.15 5.6h.01m3.337 1.913h.01m-6.979 0h.01M5.541 11h.01M15 15h2.706a1.957 1.957 0 0 0 1.883-1.325A9 9 0 1 0 2.043 11.89 9.1 9.1 0 0 0 7.2 19.1a8.62 8.62 0 0 0 3.769.9A2.013 2.013 0 0 0 13 18v-.857A2.034 2.034 0 0 1 15 15Z"
-                />
-              </svg>
-            </div>
             <input
               type="text"
               id="voice-search"
               value={searchTerm}
               onChange={handleSearchChange}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#CD9D6D] focus:border-[#CD9D6D] block w-full ps-10 p-2.5"
+              className="bg-white border border-black text-gray-900 text-sm rounded-full shadow focus:ring-[#CD9D6D] focus:border-[#CD9D6D] block w-full ps-10 p-2.5 transition duration-200 ease-in-out transform hover:scale-95"
               placeholder="Cari produk..."
               required
             />
@@ -182,7 +165,7 @@ const Index = () => {
               <svg
                 className={`w-4 h-4 ${
                   isListening ? "text-red-500" : "text-[#745347]"
-                } hover:text-gray-900`}
+                } hover:text-gray-900 transition duration-200 ease-in-out transform hover:scale-110`}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -200,7 +183,7 @@ const Index = () => {
           </div>
           <button
             type="submit"
-            className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-[#8a6d50] rounded-lg border hover:bg-[#73594f] focus:ring-4 focus:outline-none focus:ring-[#eaeaea]"
+            className="inline-flex items-center py-2.5 px-3 ms-2 text-sm font-medium text-white bg-[#8a6d50] rounded-full shadow-lg hover:shadow-xl border hover:bg-[#73594f] focus:ring-4 focus:outline-none focus:ring-[#eaeaea] transition duration-200 ease-in-out transform hover:scale-105"
           >
             <svg
               className="w-4 h-4 me-2"
@@ -226,8 +209,10 @@ const Index = () => {
             <button
               key={category.id}
               onClick={() => handleCategoryClick(category.id)}
-              className={`bg-[#CD9D6D] text-white px-3 py-1 rounded-sm hover:bg-[#745347] transition-colors duration-300 ease-in-out transform hover:scale-100 ${
-                selectedCategory === category.id ? "bg-[#745347]" : ""
+              className={`text-white px-3 py-1 rounded-2xl transition-colors duration-300 ease-in-out transform hover:scale-105 ${
+                selectedCategory === category.id
+                  ? "bg-[#916131] hover:bg-[#745347]"
+                  : "bg-slate-500 hover:bg-[#745347]"
               }`}
             >
               {category.namaKategori}
@@ -235,7 +220,7 @@ const Index = () => {
           ))}
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center lg:gap-2 xl:gap-1 mb-8">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <div
@@ -250,6 +235,9 @@ const Index = () => {
                     position: "relative",
                     paddingTop: "100%",
                     borderRadius: "12px 12px 0 0",
+                  }}
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
                 >
                   <img
@@ -306,7 +294,7 @@ const Index = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-500">
+            <p className="place-content-center text-gray-500">
               Tidak ada produk yang ditemukan
             </p>
           )}
