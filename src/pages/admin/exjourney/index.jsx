@@ -40,7 +40,7 @@ const Index = () => {
       try {
         await Api.delete(`/journey/${journeyToDelete}`);
         toast.success("Journey deleted successfully!");
-        fetchJourneys(); // Refresh the list immediately
+        fetchJourneys(); 
       } catch (error) {
         console.error("Error deleting journey:", error);
         toast.error("Error deleting journey: " + error.message);

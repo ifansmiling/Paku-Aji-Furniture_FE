@@ -19,7 +19,7 @@ const CreateJourney = () => {
     e.preventDefault();
 
     if (fileError) {
-      toast.error(fileError); // Tampilkan error file jika ada
+      toast.error(fileError); 
       return;
     }
 
@@ -54,7 +54,6 @@ const CreateJourney = () => {
 
     files.forEach((file) => {
       if (file.size > 500 * 1024) {
-        // 500KB in bytes
         isValid = false;
         errorMsg = "Ukuran file tidak boleh melebihi 500KB.";
       }
@@ -62,10 +61,10 @@ const CreateJourney = () => {
 
     if (isValid) {
       setGambar(files);
-      setFileError(""); // Reset error jika file valid
+      setFileError("");
     } else {
       setGambar([]);
-      setFileError(errorMsg); // Set error jika ada file yang melebihi batas
+      setFileError(errorMsg); 
     }
   };
 
@@ -155,7 +154,6 @@ const CreateJourney = () => {
               <small className="block mt-1 text-gray-500 italic">
                 * Maks 500KB
               </small>{" "}
-              {/* Tulisannya kecil dengan garis miring */}
             </div>
             <button
               type="submit"

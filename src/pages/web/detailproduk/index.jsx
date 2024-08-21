@@ -47,7 +47,6 @@ const ProductDetail = () => {
       <section className="container mx-auto max-w-7xl py-10 px-5 lg:grid lg:grid-cols-2 lg:gap-10">
         <div className="mt-20">
           {" "}
-          {/* Adjust margin-top here */}
           <ReactImageGallery
             showBullets={false}
             showFullscreenButton={false}
@@ -75,7 +74,6 @@ const ProductDetail = () => {
             <tbody>
               <tr className="border-t border-yellow-700/30">
                 {" "}
-                {/* Menambahkan opacity 50% */}
                 <td className="py-2 px-4 font-semibold">Dimensi</td>
                 <td className="py-2 px-4 italic text-gray-600">
                   {productDetailItem.dimensi}
@@ -83,7 +81,6 @@ const ProductDetail = () => {
               </tr>
               <tr className="border-t border-yellow-700/30">
                 {" "}
-                {/* Menambahkan opacity 50% */}
                 <td className="py-2 px-4 font-semibold">Material</td>
                 <td className="py-2 px-4 italic text-gray-600">
                   {productDetailItem.bahan}
@@ -91,7 +88,6 @@ const ProductDetail = () => {
               </tr>
               <tr className="border-t border-yellow-700/30">
                 {" "}
-                {/* Menambahkan opacity 50% */}
                 <td className="py-2 px-4 font-semibold">Konstruksi</td>
                 <td className="py-2 px-4 italic text-gray-600">
                   {productDetailItem.finishing}
@@ -99,7 +95,6 @@ const ProductDetail = () => {
               </tr>
               <tr className="border-t border-yellow-700/30">
                 {" "}
-                {/* Menambahkan opacity 50% */}
                 <td className="py-2 px-4 font-semibold">Warna</td>
                 <td className="py-2 px-4 italic text-gray-600">
                   {productDetailItem.warna}

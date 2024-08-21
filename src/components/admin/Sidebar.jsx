@@ -6,7 +6,7 @@ import {
   faTimes,
   faBars,
   faChartSimple,
-} from "@fortawesome/free-solid-svg-icons"; // Pastikan import ikon dengan benar
+} from "@fortawesome/free-solid-svg-icons"; 
 import { RiDashboardFill } from "react-icons/ri";
 import { MdCategory } from "react-icons/md";
 import { PiArmchairFill } from "react-icons/pi";
@@ -39,7 +39,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     {
       name: "Export journey",
       link: "/admin/exjourney/index",
-      icons: <FontAwesomeIcon icon={faChartSimple} className="mr-2 h-6 w-6" />, // Menggunakan Font Awesome ikon
+      icons: <FontAwesomeIcon icon={faChartSimple} className="mr-2 h-6 w-6" />, 
     },
     {
       name: "Users",

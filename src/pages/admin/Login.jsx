@@ -1,30 +1,28 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import ikon mata
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import api from "../../services/api"; 
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [kataSandi, setKataSandi] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State untuk visibilitas kata sandi
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, kataSandi }),
+      const response = await api.post("/admin/login", {
+        email,
+        kataSandi,
       });
 
-      const data = await response.json();
-      if (response.ok) {
+      const data = response.data;
+      if (response.status === 200) {
         setMessage("Login berhasil");
         setTimeout(() => {
           navigate("/admin/dashboard/index");
@@ -47,12 +45,8 @@ const AdminLogin = () => {
 
   return (
     <div className="flex justify-center items-center w-full h-screen bg-[#F7F3F0]">
-      {" "}
-      {/* Latar belakang halaman */}
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
         <h2 className="mb-6 text-2xl font-semibold text-[#CD9D6D]">
-          {" "}
-          {/* Warna judul */}
           Admin Login
         </h2>
         {message && (
@@ -68,11 +62,7 @@ const AdminLogin = () => {
         )}
         <form onSubmit={handleLogin} className="admin-login-form">
           <div className="mb-4 text-left">
-            <label className="block mb-2 text-[#0d0d0d]">
-              {" "}
-              {/* Warna label */}
-              Email
-            </label>
+            <label className="block mb-2 text-[#0d0d0d]">Email</label>
             <input
               type="email"
               value={email}
@@ -83,11 +73,7 @@ const AdminLogin = () => {
             />
           </div>
           <div className="mb-4 text-left relative">
-            <label className="block mb-2 text-[#131312]">
-              {" "}
-              {/* Warna label */}
-              Kata Sandi
-            </label>
+            <label className="block mb-2 text-[#131312]">Kata Sandi</label>
             <input
               type={showPassword ? "text" : "password"}
               value={kataSandi}

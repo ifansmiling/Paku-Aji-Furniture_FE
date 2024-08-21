@@ -12,6 +12,8 @@ const ProdukIndex = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const { kategoriId } = useParams();
   const navigate = useNavigate();
 
@@ -25,6 +27,7 @@ const ProdukIndex = () => {
         product.nama?.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
+    setCurrentPage(1); 
   }, [searchTerm, products]);
 
   const fetchProducts = async () => {
@@ -72,6 +75,17 @@ const ProdukIndex = () => {
     navigate("/admin/produks/create");
   };
 
+  const indexOfLastProduct = currentPage * itemsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <AdminLayout>
       <div className="p-6 bg-gray-100 min-h-screen">
@@ -104,13 +118,15 @@ const ProdukIndex = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((product, index) => (
+              {currentProducts.length > 0 ? (
+                currentProducts.map((product, index) => (
                   <tr
                     key={product.id}
                     className="border-b border-gray-200 text-center"
                   >
-                    <td className="py-3 px-4 text-gray-700">{index + 1}</td>
+                    <td className="py-3 px-4 text-gray-700">
+                      {indexOfFirstProduct + index + 1}
+                    </td>
                     <td className="py-3 px-4 text-gray-700">{product.nama}</td>
                     <td className="py-3 px-4 text-gray-700">
                       {product.kategori?.namaKategori || "Tidak ada kategori"}
@@ -143,6 +159,27 @@ const ProdukIndex = () => {
               )}
             </tbody>
           </table>
+        </div>
+
+        <div className="flex justify-center mt-4">
+          <nav>
+            <ul className="flex list-none">
+              {[...Array(totalPages).keys()].map((number) => (
+                <li key={number + 1} className="mx-1">
+                  <button
+                    onClick={() => paginate(number + 1)}
+                    className={`px-3 py-2 rounded-md ${
+                      currentPage === number + 1
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-200 text-gray-700"
+                    }`}
+                  >
+                    {number + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
         {showModal && (

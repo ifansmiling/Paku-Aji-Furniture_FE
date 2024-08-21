@@ -28,7 +28,6 @@ const HomeCards = () => {
         const response = await Api.get("/produk");
         let products = response.data;
 
-        // Randomize product order
         products = products.sort(() => Math.random() - 0.5);
         setProducts(products);
       } catch (error) {

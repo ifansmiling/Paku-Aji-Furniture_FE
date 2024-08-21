@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../../../layouts/Adminlayout";
-import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
+import Api, { getImageURL } from "../../../services/api"; 
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -105,7 +105,7 @@ const KategoriIndex = () => {
                     <td className="py-3 px-4 text-gray-700">{index + 1}</td>
                     <td className="py-3 px-4 text-center">
                       <img
-                        src={getImageURL(category.gambar)} // Gunakan getImageURL untuk mendapatkan URL gambar lengkap
+                        src={getImageURL(category.gambar)} 
                         alt={category.namaKategori}
                         className="w-24 h-16 object-cover rounded-md shadow-sm mx-auto"
                         onError={(e) =>

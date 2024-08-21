@@ -3,8 +3,7 @@ import Api from "../../../services/api";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminLayout from "../../../layouts/Adminlayout"; // Sesuaikan dengan struktur proyek Anda
-
+import AdminLayout from "../../../layouts/Adminlayout";
 const CreateProduct = () => {
   const [productData, setProductData] = useState({
     nama: "",
@@ -90,13 +89,11 @@ const CreateProduct = () => {
       return;
     }
 
-    // Pastikan hanya nomor telepon yang dikirimkan ke backend
     const sanitizedWhatsAppNumber = productData.linkWhatsApp.replace(
       /[^0-9]/g,
       ""
     );
 
-    // Validasi nomor WhatsApp
     if (
       sanitizedWhatsAppNumber.length < 10 ||
       sanitizedWhatsAppNumber.length > 15

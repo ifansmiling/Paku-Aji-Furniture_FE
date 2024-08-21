@@ -10,6 +10,8 @@ const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isListening, setIsListening] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 14;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -62,7 +64,12 @@ const Index = () => {
       product.nama.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProducts(results);
+    setCurrentPage(1); 
   }, [searchTerm, products]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
+  }, [currentPage]);
 
   const handleCategoryClick = (kategoriId) => {
     setSelectedCategory(kategoriId);
@@ -123,6 +130,19 @@ const Index = () => {
     return formattedPrice;
   };
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <Weblayout>
       <div className="mt-10 container px-4">
@@ -139,7 +159,6 @@ const Index = () => {
           </button>
         </div>
 
-        {/* Form Search with Custom Design */}
         <form
           className="flex items-center max-w-lg mx-auto mb-4"
           onSubmit={handleSearchSubmit}
@@ -221,8 +240,8 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:justify-center lg:gap-2 xl:gap-1 mb-8">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
+          {currentProducts.length > 0 ? (
+            currentProducts.map((product) => (
               <div
                 key={product.id}
                 className="flex flex-col items-center border border-gray-200 rounded-lg shadow-md w-full sm:w-44 p-0 hover:shadow-lg transition-shadow duration-300"
@@ -298,6 +317,48 @@ const Index = () => {
               Tidak ada produk yang ditemukan
             </p>
           )}
+        </div>
+        
+        <div className="flex justify-center items-center gap-x-2 mt-6 mb-6 max-w-screen-lg mx-auto">
+          <button
+            onClick={() => {
+              if (currentPage > 1) {
+                paginate(currentPage - 1);
+              }
+            }}
+            disabled={currentPage === 1}
+            className={`${
+              currentPage === 1 ? "text-gray-400" : "text-black"
+            } px-2 py-1`}
+          >
+            Previous
+          </button>
+          {[...Array(totalPages).keys()].map((number) => (
+            <button
+              key={number + 1}
+              onClick={() => paginate(number + 1)}
+              className={`${
+                currentPage === number + 1
+                  ? "bg-blue-100 text-yellow-700 font-bold rounded-full w-8 h-8 flex items-center justify-center"
+                  : "text-black"
+              }`}
+            >
+              {number + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => {
+              if (currentPage < totalPages) {
+                paginate(currentPage + 1);
+              }
+            }}
+            disabled={currentPage === totalPages}
+            className={`${
+              currentPage === totalPages ? "text-gray-400" : "text-black"
+            } px-2 py-1`}
+          >
+            Next
+          </button>
         </div>
       </div>
     </Weblayout>

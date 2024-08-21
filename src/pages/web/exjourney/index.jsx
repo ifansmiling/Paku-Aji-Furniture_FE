@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import WebLayout from "../../../layouts/Weblayout";
-import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
+import Api, { getImageURL } from "../../../services/api"; 
 
 const Journey = () => {
   const [journeys, setJourneys] = useState([]);
@@ -11,8 +11,8 @@ const Journey = () => {
         const response = await Api.get("/journey");
         const data = response.data.map((journey) => ({
           ...journey,
-          tanggal: new Date(journey.tanggal).toISOString().split("T")[0], // Format tanggal menjadi YYYY-MM-DD
-          gambar: journey.gambar.map((img) => getImageURL(img)), // Gunakan getImageURL untuk URL gambar
+          tanggal: new Date(journey.tanggal).toISOString().split("T")[0], 
+          gambar: journey.gambar.map((img) => getImageURL(img)), 
         }));
         setJourneys(data);
       } catch (error) {
@@ -50,7 +50,6 @@ const Journey = () => {
                   </p>
                   <p className="text-sm text-[#916131] mb-4">
                     {journey.tanggal}{" "}
-                    {/* Tanggal sudah diformat menjadi YYYY-MM-DD */}
                   </p>
                   <p className="text-lg text-gray-700 leading-relaxed text-justify">
                     {journey.deskripsi}

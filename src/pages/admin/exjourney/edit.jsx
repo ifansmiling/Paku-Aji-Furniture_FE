@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Api, { getImageURL } from "../../../services/api"; // Import getImageURL
+import Api, { getImageURL } from "../../../services/api"; 
 import AdminLayout from "../../../layouts/Adminlayout";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,8 +23,6 @@ const EditJourney = () => {
         setJudul(journey.judul);
         setTanggal(journey.tanggal);
         setDeskripsi(journey.deskripsi);
-
-        // Periksa tipe data journey.gambar
         if (Array.isArray(journey.gambar)) {
           setExistingImages(journey.gambar);
         } else if (typeof journey.gambar === "string") {
@@ -58,7 +56,7 @@ const EditJourney = () => {
       setError(`Ukuran file ${invalidFiles.join(", ")} melebihi 500KB.`);
       toast.error(`Ukuran file ${invalidFiles.join(", ")} melebihi 500KB.`);
     } else {
-      setError(""); // Reset error jika semua file valid
+      setError(""); 
       setGambar(validFiles);
     }
   };
@@ -73,8 +71,6 @@ const EditJourney = () => {
     gambar.forEach((file) => {
       formData.append("gambar", file);
     });
-
-    // Menyertakan gambar yang ada
     existingImages.forEach((img) => {
       formData.append("existingImages", img);
     });
@@ -181,7 +177,7 @@ const EditJourney = () => {
                       {existingImages.map((imageURL, index) => (
                         <div key={index} className="relative">
                           <img
-                            src={getImageURL(imageURL)} // Menggunakan getImageURL
+                            src={getImageURL(imageURL)} 
                             alt={`Existing Image ${index + 1}`}
                             className="w-24 h-16 object-cover rounded-md shadow-sm"
                           />

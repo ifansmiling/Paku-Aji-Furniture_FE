@@ -7,18 +7,18 @@ import "react-toastify/dist/ReactToastify.css";
 const CreateCategory = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
-  const [error, setError] = useState(""); // Tambahkan state untuk error file
+  const [error, setError] = useState(""); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (error) {
-      toast.error(error); // Tampilkan error jika ada
+      toast.error(error);
       return;
     }
 
     const formData = new FormData();
-    formData.append("namaKategori", name); // Sesuaikan dengan nama field di backend
+    formData.append("namaKategori", name); 
     formData.append("gambar", image);
 
     try {
@@ -30,7 +30,7 @@ const CreateCategory = () => {
       toast.success("Kategori berhasil ditambahkan");
       setTimeout(() => {
         window.location.href = "/admin/kategoris/index";
-      }, 2000); // Delay 2 detik sebelum mengarahkan ulang
+      }, 2000); 
     } catch (error) {
       console.error("Error adding category:", error);
       toast.error("Terjadi kesalahan saat menambahkan kategori");
@@ -40,12 +40,11 @@ const CreateCategory = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.size > 1 * 1024 * 1024) {
-      // 1MB dalam bytes
       setError("Ukuran file tidak boleh melebihi 1MB.");
       setImage(null);
     } else {
       setImage(file);
-      setError(""); // Reset error jika file valid
+      setError(""); 
     }
   };
 

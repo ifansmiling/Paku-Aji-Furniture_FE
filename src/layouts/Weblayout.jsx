@@ -30,7 +30,6 @@ const Weblayout = ({ children }) => {
     }
   };
 
-  // Check if the current page is the detail product page or the katalog page
   const isDetailProductPage = location.pathname.startsWith(
     "/detailproduk/index/"
   );
@@ -55,7 +54,9 @@ const Weblayout = ({ children }) => {
             <Link
               to="/"
               className={`flex items-center text-xl font-serif ${
-                activeLink === "/" ? "text-[#916131]" : "hover:text-[#916131]"
+                activeLink === "/"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => {
                 handleLinkClick("/");
@@ -69,8 +70,8 @@ const Weblayout = ({ children }) => {
               to="/katalog"
               className={`flex items-center text-xl font-serif ${
                 activeLink === "/katalog"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => {
                 handleLinkClick("/katalog");
@@ -84,12 +85,12 @@ const Weblayout = ({ children }) => {
               to="/journey"
               className={`flex items-center text-xl font-serif ${
                 activeLink === "/journey"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => {
                 handleLinkClick("/journey");
-                window.scrollTo({ top: 0, behavior: "smooth"});
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
               <TbPackageExport className="mr-2" />
@@ -99,12 +100,12 @@ const Weblayout = ({ children }) => {
               to="/about"
               className={`flex items-center text-xl font-serif ${
                 activeLink === "/about"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => {
                 handleLinkClick("/about");
-                window.scrollTo({ top: 0, behavior: "smooth"});
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
               <GrCircleInformation className="mr-2" />
@@ -144,7 +145,9 @@ const Weblayout = ({ children }) => {
             <Link
               to="/"
               className={`flex items-center text-xl ${
-                activeLink === "/" ? "text-[#916131]" : "hover:text-[#916131]"
+                activeLink === "/"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => handleLinkClick("/")}
             >
@@ -155,8 +158,8 @@ const Weblayout = ({ children }) => {
               to="/katalog"
               className={`flex items-center text-xl ${
                 activeLink === "/katalog"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => handleLinkClick("/katalog")}
             >
@@ -167,8 +170,8 @@ const Weblayout = ({ children }) => {
               to="/journey"
               className={`flex items-center text-xl ${
                 activeLink === "/journey"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => handleLinkClick("/journey")}
             >
@@ -179,8 +182,8 @@ const Weblayout = ({ children }) => {
               to="/about"
               className={`flex items-center text-xl ${
                 activeLink === "/about"
-                  ? "text-[#916131]"
-                  : "hover:text-[#916131]"
+                  ? "text-[#916131] border-b-2 border-[#916131]"
+                  : "hover:text-[#916131] hover:border-b-2 hover:border-[#916131]"
               }`}
               onClick={() => handleLinkClick("/about")}
             >
@@ -200,7 +203,6 @@ const Weblayout = ({ children }) => {
       {/* Footer */}
       <footer className="bg-gray-300 text-black py-6">
         <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-start md:items-start">
-          {/* Logo di Kiri Atas */}
           <div className="flex flex-col items-start mb-4 md:mb-0 w-full md:w-1/4">
             <div className="items-center">
               <img
@@ -222,7 +224,9 @@ const Weblayout = ({ children }) => {
             </div>
             <div className="flex items-center">
               <MdEmail className="text-2xl mr-3" />
-              <p className="text-base lg:text-l">Admin@Pakuajifurniture.id</p>
+              <p className="text-base lg:text-l">
+                Admin@Pakuajiindonesia.my.id
+              </p>
             </div>
           </div>
 

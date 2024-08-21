@@ -1,6 +1,6 @@
 import AdminLayout from "../../../layouts/Adminlayout";
 import React, { useState, useEffect } from "react";
-import Api, { getImageURL } from "../../../services/api"; // Pastikan untuk mengimpor getImageURL
+import Api, { getImageURL } from "../../../services/api"; 
 import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -75,9 +75,9 @@ const SliderIndex = () => {
                   </td>
                   <td className="px-4 py-2 border-b text-center">
                     <img
-                      src={getImageURL(slider.gambar)} // Gunakan getImageURL untuk mendapatkan URL gambar lengkap
+                      src={getImageURL(slider.gambar)} 
                       alt={`Slider ${index + 1}`}
-                      className="w-auto h-48 object-cover mx-auto" // Gambar lebih besar
+                      className="w-auto h-48 object-cover mx-auto" 
                     />
                   </td>
                   <td className="px-4 py-2 border-b text-center">

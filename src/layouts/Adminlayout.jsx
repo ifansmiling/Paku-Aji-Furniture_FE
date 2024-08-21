@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaSignOutAlt, FaHome } from "react-icons/fa"; // Import ikon
+import { FaSignOutAlt, FaHome } from "react-icons/fa"; 
 import Sidebar from "../components/admin/Sidebar";
 
 const AdminLayout = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(true); // State untuk melacak status sidebar
+  const [isOpen, setIsOpen] = useState(true); 
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -12,14 +12,12 @@ const AdminLayout = ({ children }) => {
   };
 
   const handleLogout = () => {
-    // Hapus token dari localStorage
     localStorage.removeItem("token");
-    // Redirect ke halaman login
     navigate("/admin/login");
   };
 
   const handleBackToWeb = () => {
-    navigate("/"); // Redirect ke halaman utama web
+    navigate("/"); 
   };
 
   const checkToken = () => {

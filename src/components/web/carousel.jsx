@@ -11,7 +11,6 @@ const Carousel = () => {
   const fetchSliders = async () => {
     try {
       const response = await ap.get("/slider");
-      console.log(response.data);
       setSlides(response.data);
     } catch (error) {
       console.error("Error fetching sliders:", error);
@@ -32,7 +31,6 @@ const Carousel = () => {
       className="carousel slide mt-5"
       data-bs-ride="carousel"
     >
-      {/* Menambahkan margin-top dengan kelas mt-5 untuk memberi jarak */}
       <div className="carousel-indicators">
         {slides.map((_, index) => (
           <button

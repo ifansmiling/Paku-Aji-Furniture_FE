@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../../../layouts/Adminlayout";
 import Chart from "react-apexcharts";
-import Api from "../../../services/api"; // Pastikan pathnya sesuai
+import Api from "../../../services/api"; 
 
 function Dashboard() {
-  // Judul halaman
   document.title = "Dashboard - Admin Paku Aji";
 
-  // State
   const [Kategoris, setCategories] = useState(0);
   const [Produks, setPlaces] = useState(0);
   const [Sliders, setSliders] = useState(0);
   const [Users, setUsers] = useState(0);
-  const [ExJourneys, setExJourneys] = useState(0); // State untuk ExJourneys
+  const [ExJourneys, setExJourneys] = useState(0); 
 
-  // Fungsi fetchData
   const fetchData = async () => {
     try {
-      // Ambil data dari API Rest
       const [
         kategoriResponse,
         produkResponse,
@@ -29,17 +25,9 @@ function Dashboard() {
         Api.get("/produk"),
         Api.get("/slider"),
         Api.get("/admin"),
-        Api.get("/journey"), // Tambahkan endpoint untuk ExJourney
+        Api.get("/journey"), 
       ]);
 
-      // Logging data yang diterima
-      console.log("Kategori Response:", kategoriResponse.data);
-      console.log("Produk Response:", produkResponse.data);
-      console.log("Slider Response:", sliderResponse.data);
-      console.log("User Response:", userResponse.data);
-      console.log("Journey Response:", journeyResponse.data);
-
-      // Ambil data dari array jika tidak ada objek items
       const kategoriData = Array.isArray(kategoriResponse.data)
         ? kategoriResponse.data
         : [];
@@ -54,39 +42,25 @@ function Dashboard() {
         : [];
       const journeyData = Array.isArray(journeyResponse.data)
         ? journeyResponse.data
-        : []; // Data untuk journey
-
-      // Logging data yang diterima
-      console.log("Kategori Data:", kategoriData);
-      console.log("Produk Data:", produkData);
-      console.log("Slider Data:", sliderData);
-      console.log("User Data:", userData);
-      console.log("Journey Data:", journeyData);
-
-      // Tugaskan data respons ke state
+        : []; 
       setCategories(kategoriData.length);
       setPlaces(produkData.length);
       setSliders(sliderData.length);
       setUsers(userData.length);
-      setExJourneys(journeyData.length); // Update state untuk ExJourneys
+      setExJourneys(journeyData.length);
     } catch (error) {
       console.error("Gagal mengambil data:", error.message);
     }
   };
 
-  // Hook useEffect
   useEffect(() => {
-    // Panggil method "fetchData"
     fetchData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Data untuk chart
   const options = {
     series: [
       {
-        data: [Kategoris, Produks, Sliders, Users, ExJourneys], // Tambahkan ExJourneys
+        data: [Kategoris, Produks, Sliders, Users, ExJourneys], 
       },
     ],
     chart: {
@@ -103,7 +77,7 @@ function Dashboard() {
         },
       },
     },
-    colors: ["#33b2df", "#546E7A", "#d4526e", "#13d8aa", "#ff9f43"], // Tambahkan warna untuk ExJourneys
+    colors: ["#33b2df", "#546E7A", "#d4526e", "#13d8aa", "#ff9f43"], 
     dataLabels: {
       enabled: true,
       textAnchor: "start",
@@ -123,7 +97,7 @@ function Dashboard() {
       colors: ["#fff"],
     },
     xaxis: {
-      categories: ["Kategori", "Produk", "Sliders", "Users", "Journey"], // Tambahkan kategori untuk ExJourneys
+      categories: ["Kategori", "Produk", "Sliders", "Users", "Journey"], 
     },
     yaxis: {
       labels: {
@@ -148,7 +122,6 @@ function Dashboard() {
         },
       },
     },
-    // Tambahkan animasi
     animations: {
       enabled: true,
       easing: "easeinout",
