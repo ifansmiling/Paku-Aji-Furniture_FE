@@ -20,21 +20,17 @@ const AdminLogin = () => {
         email,
         kataSandi,
       });
-
-      const data = response.data;
       if (response.status === 200) {
         setMessage("Login berhasil");
-        setTimeout(() => {
-          navigate("/admin/dashboard/index");
-        }, 700);
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", response.data.token);
+        navigate("/admin/dashboard/index");
       } else {
-        setMessage("Login gagal: " + data.message);
-        setLoading(false);
+        setMessage("Login gagal: " + response.data.message);
       }
     } catch (error) {
       console.error("Error logging in:", error);
       setMessage("Terjadi kesalahan, silakan coba lagi.");
+    } finally {
       setLoading(false);
     }
   };
