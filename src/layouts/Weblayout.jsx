@@ -225,7 +225,7 @@ const Weblayout = ({ children }) => {
             <div className="flex items-center">
               <MdEmail className="text-2xl mr-3" />
               <p className="text-base lg:text-l">
-                Admin@Pakuajiindonesia.my.id
+                Admin@Pakuajiindonesia.biz.id
               </p>
             </div>
           </div>

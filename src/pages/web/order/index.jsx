@@ -70,19 +70,17 @@ const OrderPage = () => {
             <ol className="list-decimal list-inside text-gray-700">
               <li className="mb-2">
                 <strong>Konsultasi:</strong> Diskusikan ide dan kebutuhan Anda
-                dengan tim desain kami.
+                dengan tim kami. Setelah konsultasi, kami akan menentukan harga
+                berdasarkan detail yang Anda berikan.
               </li>
               <li className="mb-2">
-                <strong>Desain:</strong> Kami akan membuat sketsa untuk
-                persetujuan Anda.
-              </li>
-              <li className="mb-2">
-                <strong>Produksi:</strong> Pengrajin kami mulai membuat furnitur
-                custom Anda.
+                <strong>Produksi:</strong> Diskusikan ide dan kebutuhan Anda
+                dengan tim kami. Setelah konsultasi, kami akan menentukan harga
+                berdasarkan detail yang Anda berikan.
               </li>
               <li>
-                <strong>Pengiriman:</strong> Kami antar dan pasang furnitur di
-                rumah Anda.
+                <strong>Pengiriman:</strong> Kami memastikan produk sampai
+                dengan utuh tanpa ada kerusakan.
               </li>
             </ol>
           </div>
